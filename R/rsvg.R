@@ -1,11 +1,16 @@
-#' Render SVG
+#' Render SVG into Bitmap
 #'
-#' Render svg data into high quality bitmap.
+#' Render svg data into high quality bitmap. When neither \code{width} or \code{height}
+#' is specified, the output resolution matches that of the input. When either \code{width}
+#' or \code{height} is specified, the image is scaled proportionally. When both \code{width}
+#' and \code{height} are specified, the image is stretched into the requested size.
 #'
 #' @export
 #' @useDynLib rsvg R_rsvg
 #' @param path to svg file or raw vector with svg data
-rsvg <- function(svg) {
+#' @parm width output width in pixes. If NULL the input size will be used.
+#' @parm height output height in pixes. If NULL the input size will be used.
+rsvg <- function(svg, width = NULL, height = NULL) {
   if(is.character(svg)){
     if(file.exists(svg)){
       svg <- readBin(svg, raw(), file.info(svg)$size)
@@ -14,7 +19,7 @@ rsvg <- function(svg) {
     }
   }
   stopifnot(is.raw(svg))
-  out <- .Call(R_rsvg, svg)
+  out <- .Call(R_rsvg, svg, width, height)
   out <- structure(as.numeric(out)/255, dim = dim(out))
   aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
 }
