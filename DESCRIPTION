@@ -1,10 +1,12 @@
 Package: rsvg
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-LazyData: TRUE
-RoxygenNote: 5.0.1
+Title: Render SVG Images
+Version: 0.1
+Author: Jeroen Ooms
+Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+Description: Renders vector-based svg into a bitmap which can be stored
+    in e.g. png, jpeg or webp format.
+License: MIT + file LICENSE
+URL: https://github.com/jeroenooms/rsvg
+BugReports: https://github.com/jeroenooms/rsvg/issues
+SystemRequirements: librsvg2
