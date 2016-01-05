@@ -10,3 +10,4 @@ License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg
 BugReports: https://github.com/jeroenooms/rsvg/issues
 SystemRequirements: librsvg2
+RoxygenNote: 5.0.1

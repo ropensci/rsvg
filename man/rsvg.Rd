@@ -2,11 +2,22 @@
 % Please edit documentation in R/rsvg.R
 \name{rsvg}
 \alias{rsvg}
-\title{Render SVG}
+\title{Render SVG into Bitmap}
 \usage{
-rsvg(svg, width = 800, height = 600)
+rsvg(svg, width = NULL, height = NULL)
+}
+\arguments{
+\item{svg}{path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
+strings into raw vectors.}
+
+\item{width}{output width in pixes. If NULL the input size will be used.}
+
+\item{height}{output height in pixes. If NULL the input size will be used.}
 }
 \description{
-Render svg file to bitmap.
+Render svg image into a high quality bitmap. When both \code{width} and \code{height}
+are \code{NULL}, the output resolution matches that of the input. When either \code{width}
+or \code{height} is specified, the image is scaled proportionally. When both \code{width}
+and \code{height} are specified, the image is stretched into the requested size.
 }
 
