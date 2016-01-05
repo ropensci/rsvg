@@ -10,14 +10,27 @@ rsvg(svg, width = NULL, height = NULL)
 \item{svg}{path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
 strings into raw vectors.}
 
-\item{width}{output width in pixes. If NULL the input size will be used.}
+\item{width}{output width in pixels or \code{NULL} for default.}
 
-\item{height}{output height in pixes. If NULL the input size will be used.}
+\item{height}{output height in pixels or \code{NULL} for default}
 }
 \description{
 Render svg image into a high quality bitmap. When both \code{width} and \code{height}
 are \code{NULL}, the output resolution matches that of the input. When either \code{width}
 or \code{height} is specified, the image is scaled proportionally. When both \code{width}
 and \code{height} are specified, the image is stretched into the requested size.
+}
+\examples{
+# create some svg
+tmp <- tempfile()
+svglite::svglite(tmp, width = 10, height = 7)
+ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
+dev.off()
+
+# render it into 720p HD
+bitmap <- rsvg(tmp, height = 720)
+png::writePNG(bitmap, "test.png", dpi = 144)
+jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
+webp::write_webp(bitmap, "test.webp", quality = 100)
 }
 
