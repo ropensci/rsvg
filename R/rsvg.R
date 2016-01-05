@@ -16,5 +16,5 @@ rsvg <- function(svg) {
   stopifnot(is.raw(svg))
   out <- .Call(R_rsvg, svg)
   out <- structure(as.numeric(out)/255, dim = dim(out))
-  aperm(out)
+  aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
 }
