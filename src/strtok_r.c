@@ -1,5 +1,6 @@
+#ifdef _WIN32
 #include <_mingw.h>
-#if defined(_WIN32) && defined(__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR < 3
+#if defined(__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR < 3
 
 #include <string.h>
 
@@ -41,4 +42,5 @@ char *strtok_r(char *s, const char *delim, char **save_ptr)
     return token;
 }
 
+#endif
 #endif
