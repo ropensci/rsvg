@@ -1,0 +1,32 @@
+all: clean winlibs copydll
+
+winlibs: clean
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+
+clean:
+	rm -f *.so *.o *.dll
+
+copydll: winlibs
+	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
+
+PKG_CPPFLAGS= \
+	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
+	-I../windows/rsvg-2.40.12/include/glib-2.0 \
+	-I../windows/rsvg-2.40.12/lib${R_ARCH}/glib-2.0/include \
+	-I../windows/rsvg-2.40.12/include/gdk-pixbuf-2.0 \
+	-I../windows/rsvg-2.40.12/include/cairo
+
+PKG_LIBS=-L../windows/rsvg-2.40.12/lib${R_ARCH} \
+	-lrsvg-2 \
+	-lxml2 -lz \
+	-lpangocairo-1.0 -lpango-1.0 -lpangoft2-1.0 -lpangowin32-1.0 \
+	-lcairo-gobject -lcairo -lfontconfig -lfreetype -lpng16 -lpixman-1 -lexpat -lharfbuzz -lbz2 -lgdi32 -lz \
+	-lcroco-0.6 \
+	-lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
+	-lgdk_pixbuf-2.0 \
+	-lintl \
+	-liconv \
+	-lusp10 \
+	-ldnsapi \
+	-liphlpapi \
+	-lws2_32
