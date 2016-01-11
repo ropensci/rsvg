@@ -43,7 +43,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     curl -fsSL https://github.com/Homebrew/homebrew/tarball/master | tar xz --strip 1 -C $BREWDIR
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install --force-bottle openssl 2>&1 | sed 's/Warning/Note/g'
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install $PKG_BREW_NAME 2>&1 | sed 's/Warning/Note/g'
-    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew uninstall glib | sed 's/Warning/Note/g'
+    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew uninstall --force glib | sed 's/Warning/Note/g'
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install tools/glib.rb 2>&1 | sed 's/Warning/Note/g'
     PKG_CFLAGS=$($BREWDIR/opt/pkg-config/bin/pkg-config --cflags ${PKG_CONFIG_NAME})
     PKG_LIBS=$($BREWDIR/opt/pkg-config/bin/pkg-config --libs --static ${PKG_CONFIG_NAME} libcroco-0.6 pangocairo)
