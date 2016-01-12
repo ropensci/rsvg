@@ -4,8 +4,9 @@ Title: Render SVG Images
 Version: 0.1
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
-Description: Render vector-based svg images into bitmap using librsvg2.
-    The resulting bitmaps can be written to e.g. png, jpeg or webp format.
+Description: Renders vector-based svg images into high-quality custom
+    size bitmaps arrays using librsvg2. The resulting bitmap can be
+    written to e.g. png, jpeg or webp format.
 License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg
 BugReports: https://github.com/jeroenooms/rsvg/issues
