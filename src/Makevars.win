@@ -1,13 +1,12 @@
-all: clean winlibs copydll
+all: clean winlibs
 
 winlibs: clean
+	mkdir -p ../inst/libs${R_ARCH_BIN}
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll ../inst/libs${R_ARCH_BIN}
 
 clean:
 	rm -f *.so *.o *.dll
-
-copydll: winlibs
-	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
 
 PKG_CPPFLAGS= \
 	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
