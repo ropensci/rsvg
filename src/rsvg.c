@@ -1,5 +1,6 @@
 #include <Rinternals.h>
 #include <librsvg/rsvg.h>
+#include <cairo.h>
 #include <string.h>
 
 SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight){
