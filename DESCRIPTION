@@ -1,7 +1,7 @@
 Package: rsvg
 Type: Package
 Title: Render SVG Images Into High-Quality Bitmaps
-Version: 0.1
+Version: 0.2
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Description: Renders vector-based svg images into high-quality custom
