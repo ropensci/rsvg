@@ -1,13 +1,12 @@
 all: clean winlibs
 
-winlibs: clean
+winlibs: clean win32/strtok_r.o
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
 	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
+	cp win32/*.c .
 
 clean:
 	rm -f *.so *.o *.dll
-
-OBJECTS: rsvg.c win32/strtok_r.o
 
 PKG_CPPFLAGS= \
 	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
