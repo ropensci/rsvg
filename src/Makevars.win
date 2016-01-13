@@ -7,6 +7,8 @@ winlibs: clean
 clean:
 	rm -f *.so *.o *.dll
 
+OBJECTS: rsvg.c win32/strtok_r.o
+
 PKG_CPPFLAGS= \
 	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
 	-I../windows/rsvg-2.40.12/include/glib-2.0 \
