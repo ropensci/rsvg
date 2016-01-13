@@ -1,9 +1,8 @@
 all: clean winlibs
 
 winlibs: clean
-	mkdir -p ../inst/libs${R_ARCH_BIN}
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
-	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll ../inst/libs${R_ARCH_BIN}
+	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
 
 clean:
 	rm -f *.so *.o *.dll

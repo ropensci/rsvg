@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^src/Makevars$
+^src/.*dll$
 ^windows
 ^readme.md$
