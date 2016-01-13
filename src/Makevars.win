@@ -5,7 +5,7 @@ winlibs: clean
 	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
 
 clean:
-	rm -f *.so *.o *.dll
+	rm -f *.so *.o *.dll win32/*.o
 
 PKG_CPPFLAGS= \
 	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
