@@ -1,11 +1,11 @@
-all: clean winlibs win32/strtok_r.o
+all: clean winlibs
 
 winlibs: clean
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
 	cp -f ../windows/rsvg-2.40.12/bin${R_ARCH}/*.dll .
 
 clean:
-	rm -f *.so *.o *.dll win32/*.o
+	rm -f *.so *.o *.dll
 
 PKG_CPPFLAGS= \
 	-I../windows/rsvg-2.40.12/include/librsvg-2.0 \
@@ -31,5 +31,4 @@ PKG_LIBS=-L../windows/rsvg-2.40.12/lib${R_ARCH} \
 	-lgdiplus \
 	-lgdi32 \
 	-lole32 \
-	-lws2_32 \
-	win32/strtok_r.o
+	-lws2_32
