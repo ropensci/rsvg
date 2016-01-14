@@ -1,12 +1,12 @@
 Package: rsvg
 Type: Package
-Title: Render SVG Images Into High-Quality Bitmaps
+Title: Render SVG Images Into High-Quality Bitmap Arrays
 Version: 0.2
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
-Description: Renders vector-based svg images into high-quality custom
-    size bitmap arrays using librsvg2. The resulting bitmap can be
-    written to e.g. png, jpeg or webp format.
+Description: Renders vector-based svg images into high-quality
+    custom-size bitmap arrays using librsvg2. The resulting
+    bitmap can be written to e.g. png, jpeg or webp format.
 License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg
 BugReports: https://github.com/jeroenooms/rsvg/issues
