@@ -2,19 +2,21 @@
 #include <librsvg/rsvg.h>
 #include <cairo.h>
 #include <cairo-pdf.h>
+#include <cairo-svg.h>
+#include <cairo-ps.h>
 #include <stdlib.h>
 #include <string.h>
 
-SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP pdf);
 SEXP write_bitmap(RsvgHandle *svg, int width, int height, int sx, int sy);
-SEXP write_pdf(RsvgHandle *svg, int width, int height, int sx, int sy);
+SEXP write_png(RsvgHandle *svg, int width, int height, int sx, int sy);
+SEXP write_stream(RsvgHandle *svg, int width, int height, int sx, int sy, cairo_surface_t* (*f) (cairo_write_func_t, void *, double, double));
 
 typedef struct {
   unsigned char *buf;
   size_t size;
 } memory;
 
-SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP pdf){
+SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
   GError *err = NULL;
   RsvgHandle *svg = rsvg_handle_new_from_data (RAW(data), LENGTH(data), &err);
   if(err != NULL)
@@ -45,11 +47,17 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP pdf){
     sx = sy = height / dimensions.height;
     width = round(dimensions.width * sx);
   }
-  switch(asInteger(pdf)){
+  switch(asInteger(format)){
   case 0:
     return write_bitmap(svg, width, height, sx, sy);
   case 1:
-    return write_pdf(svg, width, height, sx, sy);
+    return write_png(svg, width, height, sx, sy);
+  case 2:
+    return write_stream(svg, width, height, sx, sy, cairo_pdf_surface_create_for_stream);
+  case 3:
+    return write_stream(svg, width, height, sx, sy, cairo_svg_surface_create_for_stream);
+  case 4:
+    return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream);
   }
   return R_NilValue;
 }
@@ -91,9 +99,26 @@ cairo_status_t write_func(void *ctx, const unsigned char *data, unsigned int len
   return CAIRO_STATUS_SUCCESS;
 }
 
-SEXP write_pdf(RsvgHandle *svg, int width, int height, int sx, int sy){
+SEXP write_png(RsvgHandle *svg, int width, int height, int sx, int sy){
+  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+  memory mem = {NULL, 0};
+  cairo_surface_write_to_png_stream(canvas, write_func, &mem);
+  cairo_surface_flush(canvas);
+  cairo_destroy(cr);
+  cairo_surface_destroy(canvas);
+  SEXP res = allocVector(RAWSXP, mem.size);
+  memcpy(RAW(res), mem.buf, mem.size);
+  free(mem.buf);
+  return res;
+}
+
+SEXP write_stream(RsvgHandle *svg, int width, int height, int sx, int sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
   memory buf = {NULL, 0};
-  cairo_surface_t *canvas = cairo_pdf_surface_create_for_stream(write_func, &buf, width, height);
+  cairo_surface_t *canvas = fun(write_func, &buf, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
   if(!rsvg_handle_render_cairo(svg, cr))

@@ -18,33 +18,57 @@
 #' ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 #' dev.off()
 #'
-#' # render it into a bitmap
+#' # render it into a bitmap array
 #' bitmap <- rsvg(tmp, height = 1440)
-#' png::writePNG(bitmap, "test.png", dpi = 144)
-#' jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
-#' webp::write_webp(bitmap, "test.webp", quality = 100)
+#' png::writePNG(bitmap, "bitmap.png", dpi = 144)
+#' jpeg::writeJPEG(bitmap, "bitmap.jpg", quality = 1)
+#' webp::write_webp(bitmap, "bitmap.webp", quality = 100)
 #'
-#' # render to (vector based) pdf file
-#' rsvg_pdf(tmp, "test.pdf")
+#' # render straight to output format
+#' rsvg_pdf(tmp, "out.pdf")
+#' rsvg_png(tmp, "out.png")
+#' rsvg_svg(tmp, "out.svg")
+#' rsvg_ps(tmp, "out.ps")
 rsvg <- function(svg, width = NULL, height = NULL) {
   svg <- svg_data(svg)
   stopifnot(is.null(width) || is.numeric(width))
   stopifnot(is.null(height) || is.numeric(height))
-  out <- .Call(R_rsvg, svg, width, height, FALSE)
+  out <- .Call(R_rsvg, svg, width, height, 0L)
   out <- structure(as.numeric(out)/255, dim = dim(out))
   aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
 }
 
 #' @rdname rsvg
 #' @export
+rsvg_png <- function(svg, file = NULL, width = NULL, height = NULL) {
+  rsvg_format(svg, file, width, height, 1L)
+}
+
+#' @rdname rsvg
+#' @export
 rsvg_pdf <- function(svg, file = NULL, width = NULL, height = NULL) {
+  rsvg_format(svg, file, width, height, 2L)
+}
+
+#' @rdname rsvg
+#' @export
+rsvg_svg <- function(svg, file = NULL, width = NULL, height = NULL) {
+  rsvg_format(svg, file, width, height, 3L)
+}
+
+#' @rdname rsvg
+#' @export
+rsvg_ps <- function(svg, file = NULL, width = NULL, height = NULL) {
+  rsvg_format(svg, file, width, height, 4L)
+}
+
+rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, format = 0) {
   svg <- svg_data(svg)
   stopifnot(is.null(width) || is.numeric(width))
   stopifnot(is.null(height) || is.numeric(height))
-  out <- .Call(R_rsvg, svg, width, height, TRUE)
+  out <- .Call(R_rsvg, svg, width, height, format)
   if(is.character(file)){
     writeBin(out, file[1])
-    invisible()
   } else {
     return(out)
   }

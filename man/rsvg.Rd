@@ -3,11 +3,20 @@
 \name{rsvg}
 \alias{rsvg}
 \alias{rsvg_pdf}
+\alias{rsvg_png}
+\alias{rsvg_ps}
+\alias{rsvg_svg}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL)
 
+rsvg_png(svg, file = NULL, width = NULL, height = NULL)
+
 rsvg_pdf(svg, file = NULL, width = NULL, height = NULL)
+
+rsvg_svg(svg, file = NULL, width = NULL, height = NULL)
+
+rsvg_ps(svg, file = NULL, width = NULL, height = NULL)
 }
 \arguments{
 \item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
@@ -30,13 +39,16 @@ svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
-# render it into a bitmap
+# render it into a bitmap array
 bitmap <- rsvg(tmp, height = 1440)
-png::writePNG(bitmap, "test.png", dpi = 144)
-jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
-webp::write_webp(bitmap, "test.webp", quality = 100)
+png::writePNG(bitmap, "bitmap.png", dpi = 144)
+jpeg::writeJPEG(bitmap, "bitmap.jpg", quality = 1)
+webp::write_webp(bitmap, "bitmap.webp", quality = 100)
 
-# render to (vector based) pdf file
-rsvg_pdf(tmp, "test.pdf")
+# render straight to output format
+rsvg_pdf(tmp, "out.pdf")
+rsvg_png(tmp, "out.png")
+rsvg_svg(tmp, "out.svg")
+rsvg_ps(tmp, "out.ps")
 }
 

@@ -2,4 +2,7 @@
 
 export(rsvg)
 export(rsvg_pdf)
+export(rsvg_png)
+export(rsvg_ps)
+export(rsvg_svg)
 useDynLib(rsvg,R_rsvg)
