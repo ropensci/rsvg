@@ -20,6 +20,7 @@
 #'
 #' # render it into a bitmap array
 #' bitmap <- rsvg(tmp, height = 1440)
+#' dim(bitmap) # h*w*c
 #' png::writePNG(bitmap, "bitmap.png", dpi = 144)
 #' jpeg::writeJPEG(bitmap, "bitmap.jpg", quality = 1)
 #' webp::write_webp(bitmap, "bitmap.webp", quality = 100)

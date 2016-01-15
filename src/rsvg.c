@@ -7,9 +7,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-SEXP write_bitmap(RsvgHandle *svg, int width, int height, int sx, int sy);
-SEXP write_png(RsvgHandle *svg, int width, int height, int sx, int sy);
-SEXP write_stream(RsvgHandle *svg, int width, int height, int sx, int sy, cairo_surface_t* (*f) (cairo_write_func_t, void *, double, double));
+SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy);
+SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy);
+SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*f) (cairo_write_func_t, void *, double, double));
 
 typedef struct {
   unsigned char *buf;
@@ -62,7 +62,7 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
   return R_NilValue;
 }
 
-SEXP write_bitmap(RsvgHandle *svg, int width, int height, int sx, int sy){
+SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
@@ -99,7 +99,7 @@ cairo_status_t write_func(void *ctx, const unsigned char *data, unsigned int len
   return CAIRO_STATUS_SUCCESS;
 }
 
-SEXP write_png(RsvgHandle *svg, int width, int height, int sx, int sy){
+SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy){
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
@@ -116,7 +116,7 @@ SEXP write_png(RsvgHandle *svg, int width, int height, int sx, int sy){
   return res;
 }
 
-SEXP write_stream(RsvgHandle *svg, int width, int height, int sx, int sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
+SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
   memory buf = {NULL, 0};
   cairo_surface_t *canvas = fun(write_func, &buf, width, height);
   cairo_t *cr = cairo_create(canvas);
