@@ -7,7 +7,7 @@
 #'
 #' @export
 #' @useDynLib rsvg R_rsvg
-#' @param svg path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
+#' @param svg path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
 #' an SVG string into raw data.
 #' @param width output width in pixels or \code{NULL} for default.
 #' @param height output height in pixels or \code{NULL} for default
@@ -24,10 +24,17 @@
 #' webp::write_webp(bitmap, "test.webp", quality = 100)
 rsvg <- function(svg, width = NULL, height = NULL) {
   if(is.character(svg)){
-    if(file.exists(svg)){
+    if(grepl("^https?://", svg)){
+      con <- url(svg, "rb")
+      on.exit(close(con))
+      svg <- raw();
+      while(length(buf <- readBin(con, raw(), 1e6))){
+        svg <- c(svg, buf)
+      }
+    } else if(file.exists(svg)){
       svg <- readBin(svg, raw(), file.info(svg)$size)
     } else {
-      stop("Argument 'svg' must be a file path or raw vector.")
+      stop("Argument 'svg' must be a file path, url, or raw vector.")
     }
   }
   stopifnot(is.raw(svg))

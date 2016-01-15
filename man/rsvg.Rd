@@ -7,7 +7,7 @@
 rsvg(svg, width = NULL, height = NULL)
 }
 \arguments{
-\item{svg}{path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
+\item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
 an SVG string into raw data.}
 
 \item{width}{output width in pixels or \code{NULL} for default.}
