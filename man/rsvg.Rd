@@ -25,6 +25,8 @@ an SVG string into raw data.}
 \item{width}{output width in pixels or \code{NULL} for default.}
 
 \item{height}{output height in pixels or \code{NULL} for default}
+
+\item{file}{path to output file or \code{NULL} to return content as raw vector}
 }
 \description{
 Render svg image into a high quality bitmap. When both \code{width} and \code{height}

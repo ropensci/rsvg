@@ -41,6 +41,7 @@ rsvg <- function(svg, width = NULL, height = NULL) {
 
 #' @rdname rsvg
 #' @export
+#' @param file path to output file or \code{NULL} to return content as raw vector
 rsvg_png <- function(svg, file = NULL, width = NULL, height = NULL) {
   rsvg_format(svg, file, width, height, 1L)
 }
