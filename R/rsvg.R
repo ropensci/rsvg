@@ -8,7 +8,7 @@
 #' @export
 #' @useDynLib rsvg R_rsvg
 #' @param svg path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
-#' strings into raw vectors.
+#' an SVG string into raw data.
 #' @param width output width in pixels or \code{NULL} for default.
 #' @param height output height in pixels or \code{NULL} for default
 #' @examples # create some svg
@@ -18,7 +18,7 @@
 #' dev.off()
 #'
 #' # render it into 720p HD
-#' bitmap <- rsvg(tmp, height = 720)
+#' bitmap <- rsvg(tmp, height = 1440)
 #' png::writePNG(bitmap, "test.png", dpi = 144)
 #' jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
 #' webp::write_webp(bitmap, "test.webp", quality = 100)

@@ -8,7 +8,7 @@ rsvg(svg, width = NULL, height = NULL)
 }
 \arguments{
 \item{svg}{path to svg file or raw vector with svg data. Use \link{charToRaw} to convert
-strings into raw vectors.}
+an SVG string into raw data.}
 
 \item{width}{output width in pixels or \code{NULL} for default.}
 
@@ -28,7 +28,7 @@ ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
 # render it into 720p HD
-bitmap <- rsvg(tmp, height = 720)
+bitmap <- rsvg(tmp, height = 1440)
 png::writePNG(bitmap, "test.png", dpi = 144)
 jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
 webp::write_webp(bitmap, "test.webp", quality = 100)
