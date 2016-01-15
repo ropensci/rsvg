@@ -1,9 +1,20 @@
 #include <Rinternals.h>
 #include <librsvg/rsvg.h>
 #include <cairo.h>
+#include <cairo-pdf.h>
+#include <stdlib.h>
 #include <string.h>
 
-SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight){
+SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP pdf);
+SEXP write_bitmap(RsvgHandle *svg, int width, int height, int sx, int sy);
+SEXP write_pdf(RsvgHandle *svg, int width, int height, int sx, int sy);
+
+typedef struct {
+  unsigned char *buf;
+  size_t size;
+} memory;
+
+SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP pdf){
   GError *err = NULL;
   RsvgHandle *svg = rsvg_handle_new_from_data (RAW(data), LENGTH(data), &err);
   if(err != NULL)
@@ -34,7 +45,16 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight){
     sx = sy = height / dimensions.height;
     width = round(dimensions.width * sx);
   }
+  switch(asInteger(pdf)){
+  case 0:
+    return write_bitmap(svg, width, height, sx, sy);
+  case 1:
+    return write_pdf(svg, width, height, sx, sy);
+  }
+  return R_NilValue;
+}
 
+SEXP write_bitmap(RsvgHandle *svg, int width, int height, int sx, int sy){
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
@@ -55,4 +75,35 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight){
   cairo_destroy(cr);
   cairo_surface_destroy(canvas);
   return image;
+}
+
+cairo_status_t write_func(void *ctx, const unsigned char *data, unsigned int length) {
+  memory *mem = (memory*) ctx;
+  #ifdef _WIN32
+    mem->buf = realloc(mem->buf, exp2(ceil(log2(mem->size + length))));
+  #else
+    mem->buf = realloc(mem->buf, mem->size + length);
+  #endif
+  if (!mem->buf)
+    return CAIRO_STATUS_WRITE_ERROR;
+  memcpy(&(mem->buf[mem->size]), data, length);
+  mem->size += length;
+  return CAIRO_STATUS_SUCCESS;
+}
+
+SEXP write_pdf(RsvgHandle *svg, int width, int height, int sx, int sy){
+  memory buf = {NULL, 0};
+  cairo_surface_t *canvas = cairo_pdf_surface_create_for_stream(write_func, &buf, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+  cairo_surface_show_page(canvas);
+  cairo_surface_flush(canvas);
+  cairo_destroy(cr);
+  cairo_surface_destroy(canvas);
+  SEXP res = allocVector(RAWSXP, buf.size);
+  memcpy(RAW(res), buf.buf, buf.size);
+  free(buf.buf);
+  return res;
 }

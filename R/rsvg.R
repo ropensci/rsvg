@@ -11,18 +11,46 @@
 #' an SVG string into raw data.
 #' @param width output width in pixels or \code{NULL} for default.
 #' @param height output height in pixels or \code{NULL} for default
+#' @rdname rsvg
 #' @examples # create some svg
 #' tmp <- tempfile()
 #' svglite::svglite(tmp, width = 10, height = 7)
 #' ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 #' dev.off()
 #'
-#' # render it into 720p HD
+#' # render it into a bitmap
 #' bitmap <- rsvg(tmp, height = 1440)
 #' png::writePNG(bitmap, "test.png", dpi = 144)
 #' jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
 #' webp::write_webp(bitmap, "test.webp", quality = 100)
+#'
+#' # render to (vector based) pdf file
+#' rsvg_pdf(tmp, "test.pdf")
 rsvg <- function(svg, width = NULL, height = NULL) {
+  svg <- svg_data(svg)
+  stopifnot(is.null(width) || is.numeric(width))
+  stopifnot(is.null(height) || is.numeric(height))
+  out <- .Call(R_rsvg, svg, width, height, FALSE)
+  out <- structure(as.numeric(out)/255, dim = dim(out))
+  aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
+}
+
+#' @rdname rsvg
+#' @export
+rsvg_pdf <- function(svg, file = NULL, width = NULL, height = NULL) {
+  svg <- svg_data(svg)
+  stopifnot(is.null(width) || is.numeric(width))
+  stopifnot(is.null(height) || is.numeric(height))
+  out <- .Call(R_rsvg, svg, width, height, TRUE)
+  if(is.character(file)){
+    writeBin(out, file[1])
+    invisible()
+  } else {
+    return(out)
+  }
+}
+
+svg_data <- function(svg){
   if(is.character(svg)){
     if(grepl("^https?://", svg)){
       con <- url(svg, "rb")
@@ -38,9 +66,5 @@ rsvg <- function(svg, width = NULL, height = NULL) {
     }
   }
   stopifnot(is.raw(svg))
-  stopifnot(is.null(width) || is.numeric(width))
-  stopifnot(is.null(height) || is.numeric(height))
-  out <- .Call(R_rsvg, svg, width, height)
-  out <- structure(as.numeric(out)/255, dim = dim(out))
-  aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
+  return(svg)
 }

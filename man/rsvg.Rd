@@ -2,9 +2,12 @@
 % Please edit documentation in R/rsvg.R
 \name{rsvg}
 \alias{rsvg}
+\alias{rsvg_pdf}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL)
+
+rsvg_pdf(svg, file = NULL, width = NULL, height = NULL)
 }
 \arguments{
 \item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
@@ -27,10 +30,13 @@ svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
-# render it into 720p HD
+# render it into a bitmap
 bitmap <- rsvg(tmp, height = 1440)
 png::writePNG(bitmap, "test.png", dpi = 144)
 jpeg::writeJPEG(bitmap, "test.jpg", quality = 1)
 webp::write_webp(bitmap, "test.webp", quality = 100)
+
+# render to (vector based) pdf file
+rsvg_pdf(tmp, "test.pdf")
 }
 

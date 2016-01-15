@@ -1,4 +1,5 @@
 0.3
+  - Add rsvg_pdf() to render to pdf
   - Fix for rounding issue in proportional image scaling
   - Add support for url in rsvg()
 
