@@ -28,11 +28,11 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight){
   } else if(rwidth != R_NilValue){
     width = asInteger(rwidth);
     sx = sy = width / dimensions.width;
-    height = dimensions.height * sy;
+    height = round(dimensions.height * sy);
   } else {
     height = asInteger(rheight);
     sx = sy = height / dimensions.height;
-    width = dimensions.width * sx;
+    width = round(dimensions.width * sx);
   }
 
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
