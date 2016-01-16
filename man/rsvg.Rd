@@ -7,11 +7,14 @@
 \alias{rsvg_ps}
 \alias{rsvg_raw}
 \alias{rsvg_svg}
+\alias{rsvg_webp}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL)
 
 rsvg_raw(svg, width = NULL, height = NULL)
+
+rsvg_webp(svg, file = NULL, width = NULL, height = NULL)
 
 rsvg_png(svg, file = NULL, width = NULL, height = NULL)
 

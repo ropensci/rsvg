@@ -48,6 +48,13 @@ rsvg_raw <- function(svg, width = NULL, height = NULL) {
 
 #' @rdname rsvg
 #' @export
+rsvg_webp <- function(svg, file = NULL, width = NULL, height = NULL) {
+  out <- rsvg_raw(svg, width, height)
+  webp::write_webp(out, file, 100)
+}
+
+#' @rdname rsvg
+#' @export
 #' @param file path to output file or \code{NULL} to return content as raw vector
 rsvg_png <- function(svg, file = NULL, width = NULL, height = NULL) {
   rsvg_format(svg, file, width, height, 1L)
