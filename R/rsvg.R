@@ -31,12 +31,19 @@
 #' rsvg_svg(tmp, "out.svg")
 #' rsvg_ps(tmp, "out.ps")
 rsvg <- function(svg, width = NULL, height = NULL) {
+  out <- rsvg_raw(svg, width, height)
+  out <- structure(as.numeric(out)/255, dim = dim(out))
+  aperm(out) # Convert to standard with*height*rgba
+}
+
+#' @rdname rsvg
+#' @export
+rsvg_raw <- function(svg, width = NULL, height = NULL) {
   svg <- svg_data(svg)
   stopifnot(is.null(width) || is.numeric(width))
   stopifnot(is.null(height) || is.numeric(height))
   out <- .Call(R_rsvg, svg, width, height, 0L)
-  out <- structure(as.numeric(out)/255, dim = dim(out))
-  aperm(out)[,,c(3,2,1,4)] # Convert to standard with*height*rgba
+  out[c(3,2,1,4),,, drop = FALSE]
 }
 
 #' @rdname rsvg

@@ -5,10 +5,13 @@
 \alias{rsvg_pdf}
 \alias{rsvg_png}
 \alias{rsvg_ps}
+\alias{rsvg_raw}
 \alias{rsvg_svg}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL)
+
+rsvg_raw(svg, width = NULL, height = NULL)
 
 rsvg_png(svg, file = NULL, width = NULL, height = NULL)
 
