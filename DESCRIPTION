@@ -11,6 +11,6 @@ Description: Renders vector-based 'svg' images into high-quality custom-size bit
 License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg
 BugReports: https://github.com/jeroenooms/rsvg/issues
-SystemRequirements: librsvg2
+SystemRequirements: librsvg2 library and headers
 RoxygenNote: 5.0.1
 Suggests: svglite, png, jpeg, webp, ggplot2
