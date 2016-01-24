@@ -47,6 +47,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     # Downgrade glib because static linking is broken in 2.46
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew uninstall --force glib | sed 's/Warning/Note/g'
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install tools/glib.rb 2>&1 | sed 's/Warning/Note/g'
+    $BREWDIR/bin/brew link $($BREWDIR/bin/brew list) --overwrite --force
     PKG_CFLAGS=$($BREWDIR/opt/pkg-config/bin/pkg-config --cflags ${PKG_CONFIG_NAME})
     PKG_LIBS=$($BREWDIR/opt/pkg-config/bin/pkg-config --libs --static ${PKG_CONFIG_NAME} libcroco-0.6 pangocairo)
     rm -f $BREWDIR/Cellar/*/*/lib/*.dylib
