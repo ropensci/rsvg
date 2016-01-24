@@ -41,7 +41,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     rm -Rf $BREWDIR
     mkdir -p $BREWDIR
     curl -fsSL https://github.com/Homebrew/homebrew/tarball/master | tar xz --strip 1 -C $BREWDIR
-    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install --force-bottle openssl 2>&1 | perl -pe 's/Warning/Note/gi'
+    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install --force-bottle curl openssl 2>&1 | perl -pe 's/Warning/Note/gi'
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install $PKG_BREW_NAME 2>&1 | sed 's/Warning/Note/g'
 
     # Downgrade glib because static linking is broken in 2.46
