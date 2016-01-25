@@ -1,7 +1,7 @@
 Package: rsvg
 Type: Package
 Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
-Version: 0.3.9000
+Version: 0.4
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Description: Renders vector-based 'svg' images into high-quality custom-size bitmap
@@ -9,7 +9,7 @@ Description: Renders vector-based 'svg' images into high-quality custom-size bit
     or 'webp' format. In addition, the package can convert images directly to various
     formats such as pdf or postscript.
 License: MIT + file LICENSE
-URL: https://github.com/jeroenooms/rsvg
+URL: https://github.com/jeroenooms/rsvg https://www.opencpu.org/posts/svg-release
 BugReports: https://github.com/jeroenooms/rsvg/issues
 SystemRequirements: librsvg2 library and headers
 RoxygenNote: 5.0.1
