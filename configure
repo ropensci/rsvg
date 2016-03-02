@@ -1,5 +1,5 @@
 #!/bin/bash
-# Anticonf (tm) script by Jeroen Ooms (2015)
+# Anticonf (tm) script by Jeroen Ooms (2016)
 # This script will query 'pkg-config' for the required cflags and ldflags.
 # If pkg-config is unavailable or does not find the library, try setting
 # INCLUDE_DIR and LIB_DIR manually via e.g:
@@ -16,7 +16,7 @@ PKG_LIBS="-lrsvg"
 PKG_CFLAGS=""
 
 # Use pkg-config if available
-pkg-config --exists ${PKG_CONFIG_NAME} 2>/dev/null
+pkg-config --version >/dev/null 2>&1
 if [ $? -eq 0 ]; then
   PKGCONFIG_CFLAGS=$(pkg-config --cflags ${PKG_CONFIG_NAME})
   PKGCONFIG_LIBS=$(pkg-config --libs --silence-errors ${PKG_CONFIG_NAME})
