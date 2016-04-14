@@ -4,3 +4,5 @@
 ^src/.*dll$
 ^windows
 ^readme.md$
+^\.travis\.yml$
+^appveyor\.yml$
