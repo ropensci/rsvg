@@ -48,6 +48,7 @@ svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
+\dontrun{
 # render it into a bitmap array
 bitmap <- rsvg(tmp, height = 1440)
 dim(bitmap) # h*w*c
@@ -60,5 +61,6 @@ rsvg_pdf(tmp, "out.pdf")
 rsvg_png(tmp, "out.png")
 rsvg_svg(tmp, "out.svg")
 rsvg_ps(tmp, "out.ps")
+}
 }
 
