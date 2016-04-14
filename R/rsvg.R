@@ -13,6 +13,7 @@
 #' @param height output height in pixels or \code{NULL} for default
 #' @rdname rsvg
 #' @examples # create some svg
+#' par(ask = FALSE)
 #' tmp <- tempfile()
 #' svglite::svglite(tmp, width = 10, height = 7)
 #' ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))

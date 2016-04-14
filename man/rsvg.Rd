@@ -42,6 +42,7 @@ and \code{height} are specified, the image is stretched into the requested size.
 }
 \examples{
 # create some svg
+par(ask = FALSE)
 tmp <- tempfile()
 svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
