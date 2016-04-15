@@ -4,9 +4,9 @@ Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
 Version: 0.5
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
-Description: Renders vector-based 'svg' images into high-quality custom-size bitmap
-    arrays using 'librsvg'. The resulting bitmap can be written to e.g. 'png', 'jpeg'
-    or 'webp' format. In addition, the package can convert images directly to various
+Description: Renders vector-based svg images into high-quality custom-size bitmap
+    arrays using 'librsvg2'. The resulting bitmap can be written to e.g. png, jpeg
+    or Webp format. In addition, the package can convert images directly to various
     formats such as pdf or postscript.
 License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg https://www.opencpu.org/posts/svg-release
