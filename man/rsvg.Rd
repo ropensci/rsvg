@@ -52,7 +52,6 @@ dev.off()
 bitmap <- rsvg(tmp, height = 1440)
 dim(bitmap) # h*w*c
 
-\dontrun{
 png::writePNG(bitmap, "bitmap.png", dpi = 144)
 jpeg::writeJPEG(bitmap, "bitmap.jpg", quality = 1)
 webp::write_webp(bitmap, "bitmap.webp", quality = 100)
@@ -63,6 +62,5 @@ rsvg_pdf(tmp, "out.pdf")
 rsvg_png(tmp, "out.png")
 rsvg_svg(tmp, "out.svg")
 rsvg_ps(tmp, "out.ps")
-}
 }
 
