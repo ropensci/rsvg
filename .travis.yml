@@ -9,6 +9,7 @@ addons:
     packages:
       - librsvg2-dev
       - libwebp-dev
+      - libicu-dev
 
 r_github_packages:
   - jimhester/covr
