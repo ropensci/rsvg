@@ -8,6 +8,7 @@ addons:
   apt:
     packages:
       - librsvg2-dev
+      - librsvg2-bin
       - libwebp-dev
       - libicu-dev
 
