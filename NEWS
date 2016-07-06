@@ -1,5 +1,7 @@
 0.6
   - Update Homebrew URL in configure script
+  - Change autobrew to --force-bottle dependencies and use current glib2
+  - Add '-framework AppKit' to PKG_LIBS for OSX static binary (needed by CMD check)
 
 0.5
   - Fix for Warning on OSX CRAN builder.
