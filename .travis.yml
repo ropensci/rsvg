@@ -3,9 +3,9 @@ cache: packages
 
 matrix:
   include:
-    - os: linux
-      dist: precise #broken - freezes
-      sudo: true
+#    - os: linux
+#      dist: precise #broken - freezes
+#      sudo: true
     - os: linux
       dist: trusty
       sudo: true
@@ -15,7 +15,7 @@ matrix:
       brew_packages: librsvg
       latex: false
     - os: osx
-      osx_image: beta-xcode6.2
+      osx_image: beta-xcode6.1
       disable_homebrew: true
 
 addons:
