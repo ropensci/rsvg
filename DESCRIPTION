@@ -6,7 +6,7 @@ Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Description: Renders vector-based svg images into high-quality custom-size bitmap
     arrays using 'librsvg2'. The resulting bitmap can be written to e.g. png, jpeg
-    or Webp format. In addition, the package can convert images directly to various
+    or webp format. In addition, the package can convert images directly to various
     formats such as pdf or postscript.
 License: MIT + file LICENSE
 URL: https://github.com/jeroenooms/rsvg#readme
