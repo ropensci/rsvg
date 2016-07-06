@@ -46,10 +46,11 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install --force-bottle openssl curl 2>&1 | perl -pe 's/Warning/Note/gi'
     HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install $PKG_BREW_NAME 2>&1 | perl -pe 's/Warning/Note/gi'
 
-    # Downgrade glib because static linking is broken in 2.46
-    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew uninstall --force glib 2>&1 | perl -pe 's/Warning/Note/gi'
-    HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install tools/glib.rb 2>&1 | perl -pe 's/Warning/Note/gi'
-    $BREWDIR/bin/brew link $($BREWDIR/bin/brew list) --overwrite --force 2>&1 | perl -pe 's/Warning/Note/gi'
+    # Downgrade glib because static linking is broken in 2.46 (seems fixed in 2.48)
+    #HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew uninstall --force glib 2>&1 | perl -pe 's/Warning/Note/gi'
+    #HOMEBREW_CACHE="/tmp" $BREWDIR/bin/brew install tools/glib.rb 2>&1 | perl -pe 's/Warning/Note/gi'
+    #$BREWDIR/bin/brew link $($BREWDIR/bin/brew list) --overwrite --force 2>&1 | perl -pe 's/Warning/Note/gi'
+
     PKG_CFLAGS=$($BREWDIR/opt/pkg-config/bin/pkg-config --cflags ${PKG_CONFIG_NAME})
     PKG_LIBS=$($BREWDIR/opt/pkg-config/bin/pkg-config --libs --static ${PKG_CONFIG_NAME} libcroco-0.6 pangocairo)
     rm -f $BREWDIR/Cellar/*/*/lib/*.dylib
