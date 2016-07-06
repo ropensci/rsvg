@@ -65,7 +65,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
       PKG_LIBS=$(echo $PKG_LIBS | sed "s/-l$LIBNAME /-lbrew$LIBNAME /g")
     done
     rm -f $BREWDIR/lib/*.dylib
-    PKG_LIBS="-L$BREWDIR/lib $PKG_LIBS"
+    PKG_LIBS="-L$BREWDIR/lib $PKG_LIBS -framework AppKit"
   fi
 fi
 
