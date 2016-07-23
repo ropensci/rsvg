@@ -54,7 +54,7 @@ install.packages("rsvg")
 Installation from source on Linux or OSX requires [`librsvg2`](https://developer.gnome.org/rsvg/). On __Debian__ or __Ubuntu__ install [librsvg2-dev](https://packages.debian.org/testing/librsvg2-dev):
 
 ```
-sudo apt-get install -y librsvg2-devel
+sudo apt-get install -y librsvg2-dev
 ```
 
 On __Fedora__, __CentOS or RHEL__ we need [librsvg-devel](https://apps.fedoraproject.org/packages/librsvg2-devel):
