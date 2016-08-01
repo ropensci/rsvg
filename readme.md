@@ -57,10 +57,10 @@ Installation from source on Linux or OSX requires [`librsvg2`](https://developer
 sudo apt-get install -y librsvg2-dev
 ```
 
-On __Fedora__, __CentOS or RHEL__ we need [librsvg-devel](https://apps.fedoraproject.org/packages/librsvg2-devel):
+On __Fedora__, __CentOS or RHEL__ we need [librsvg2-devel](https://apps.fedoraproject.org/packages/librsvg2-devel):
 
 ```
-sudo yum install librsvg-devel
+sudo yum install librsvg2-devel
 ````
 
 On __OS-X__ use [rsvg](https://github.com/Homebrew/homebrew-core/blob/master/Formula/librsvg.rb) from Homebrew:
