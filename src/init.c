@@ -1,5 +1,6 @@
 #include <R_ext/Rdynload.h>
 #include <librsvg/rsvg.h>
+#include <librsvg/librsvg-features.h>
 
 void R_init_rsvg(DllInfo *info) {
   #if defined(LIBRSVG_MAJOR_VERSION) && LIBRSVG_MAJOR_VERSION == 2
