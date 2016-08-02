@@ -1,3 +1,6 @@
+0.7
+  - Fixed a bug that could cause a freeze or segfault with old versions of librsvg
+
 0.6
   - Update Homebrew URL in configure script
   - Change autobrew to --force-bottle dependencies and use current glib2
