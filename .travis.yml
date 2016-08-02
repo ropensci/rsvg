@@ -3,9 +3,8 @@ cache: packages
 
 matrix:
   include:
-#    - os: linux
-#      dist: precise #broken - freezes
-#      sudo: true
+    - os: linux
+      dist: precise #broken - freezes
     - os: linux
       dist: trusty
       sudo: true
