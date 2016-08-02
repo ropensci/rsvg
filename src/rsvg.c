@@ -80,8 +80,8 @@ SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
   memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
   UNPROTECT(1);
   g_object_unref(svg);
-  cairo_destroy(cr);
   cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
   return image;
 }
 
@@ -108,8 +108,8 @@ SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy){
   memory mem = {NULL, 0};
   cairo_surface_write_to_png_stream(canvas, write_func, &mem);
   cairo_surface_flush(canvas);
-  cairo_destroy(cr);
   cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
   SEXP res = allocVector(RAWSXP, mem.size);
   memcpy(RAW(res), mem.buf, mem.size);
   free(mem.buf);
@@ -125,8 +125,8 @@ SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, 
     Rf_error("Cairo failed to render svg");
   cairo_surface_show_page(canvas);
   cairo_surface_flush(canvas);
-  cairo_destroy(cr);
   cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
   SEXP res = allocVector(RAWSXP, buf.size);
   memcpy(RAW(res), buf.buf, buf.size);
   free(buf.buf);
