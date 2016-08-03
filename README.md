@@ -6,7 +6,7 @@
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroenooms/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroenooms/rsvg)
 [![Coverage Status](https://codecov.io/github/jeroenooms/rsvg/coverage.svg?branch=master)](https://codecov.io/github/jeroenooms/rsvg?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/web/packages/rsvg/index.html)
+[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
 [![Github Stars](https://img.shields.io/github/stars/jeroenooms/rsvg.svg?style=social&label=Github)](https://github.com/jeroenooms/rsvg)
 
 > Renders vector-based 'svg' images into high-quality custom-size bitmap
