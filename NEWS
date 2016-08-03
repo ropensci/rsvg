@@ -1,4 +1,4 @@
-0.7
+1.0
   - Upgrade to fully static librsvg 2.40.16 build on Windows
   - Fixed a bug that could cause a freeze or segfault with old versions of librsvg
 
