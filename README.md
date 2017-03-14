@@ -2,12 +2,12 @@
 
 ##### *A New Format for Lossless and Lossy Image Compression*
 
-[![Build Status](https://travis-ci.org/jeroenooms/rsvg.svg?branch=master)](https://travis-ci.org/jeroenooms/rsvg)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroenooms/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroenooms/rsvg)
-[![Coverage Status](https://codecov.io/github/jeroenooms/rsvg/coverage.svg?branch=master)](https://codecov.io/github/jeroenooms/rsvg?branch=master)
+[![Build Status](https://travis-ci.org/jeroen/rsvg.svg?branch=master)](https://travis-ci.org/jeroen/rsvg)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/rsvg)
+[![Coverage Status](https://codecov.io/github/jeroen/rsvg/coverage.svg?branch=master)](https://codecov.io/github/jeroen/rsvg?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
-[![Github Stars](https://img.shields.io/github/stars/jeroenooms/rsvg.svg?style=social&label=Github)](https://github.com/jeroenooms/rsvg)
+[![Github Stars](https://img.shields.io/github/stars/jeroen/rsvg.svg?style=social&label=Github)](https://github.com/jeroen/rsvg)
 
 > Renders vector-based 'svg' images into high-quality custom-size bitmap
   arrays using 'librsvg'. The resulting bitmap can be written to e.g. 'png', 'jpeg'
