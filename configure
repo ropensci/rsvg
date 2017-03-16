@@ -38,7 +38,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     PKG_CFLAGS="-I$BREWDIR/opt/$PKG_BREW_NAME/include"
     PKG_LIBS="-L$BREWDIR/opt/$PKG_BREW_NAME/lib $PKG_LIBS"
   else
-    BREWDIR="/tmp/homebrew"
+    BREWDIR="$TMPDIR/homebrew"
     BREW="$BREWDIR/bin/brew"
     rm -Rf $BREWDIR
     mkdir -p $BREWDIR
@@ -55,8 +55,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 
     HOMEBREW_CACHE="/tmp" $BREW install pkg-config 2>&1 | perl -pe 's/Warning/Note/gi'
     BREW_DEPS=$($BREW deps -n $PKG_BREW_NAME)
-    HOMEBREW_CACHE="/tmp" $BREW install $BREW_DEPS --force-bottle 2>&1 | perl -pe 's/Warning/Note/gi'
-    HOMEBREW_CACHE="/tmp" $BREW install $PKG_BREW_NAME --force-bottle 2>&1 | perl -pe 's/Warning/Note/gi'
+    HOMEBREW_CACHE="/tmp" $BREW install $BREW_DEPS $PKG_BREW_NAME --force-bottle 2>&1 | perl -pe 's/Warning/Note/gi'
     PKG_CFLAGS=$($BREWDIR/opt/pkg-config/bin/pkg-config --cflags ${PKG_CONFIG_NAME})
     PKG_LIBS=$($BREWDIR/opt/pkg-config/bin/pkg-config --libs --static ${PKG_CONFIG_NAME} libcroco-0.6 pangocairo)
     rm -f $BREWDIR/Cellar/*/*/lib/*.dylib

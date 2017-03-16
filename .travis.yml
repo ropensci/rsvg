@@ -4,10 +4,10 @@ cache: packages
 matrix:
   include:
     - os: linux
-      dist: precise #broken - freezes
+      dist: precise
     - os: linux
       dist: trusty
-      sudo: true
+      sudo: required
       env: R_CODECOV=true
       r_check_args: '--use-valgrind'
     - os: osx
@@ -19,7 +19,7 @@ matrix:
       disable_homebrew: true
       latex: false
     - os: osx
-      osx_image: beta-xcode6.1
+      osx_image: beta-xcode6.4
       disable_homebrew: true
 
 addons:
