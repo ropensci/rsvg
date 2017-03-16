@@ -21,6 +21,7 @@ matrix:
     - os: osx
       osx_image: beta-xcode6.4
       disable_homebrew: true
+      latex: false
 
 addons:
   apt:
