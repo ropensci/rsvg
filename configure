@@ -38,8 +38,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     PKG_CFLAGS="-I$BREWDIR/opt/$PKG_BREW_NAME/include"
     PKG_LIBS="-L$BREWDIR/opt/$PKG_BREW_NAME/lib $PKG_LIBS"
   else
-    curl -OL https://jeroen.github.io/autobrew/rsvg.sh
-    source rsvg.sh
+    curl -OL https://jeroen.github.io/autobrew/rsvg
+    source rsvg
   fi
 fi
 
