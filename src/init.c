@@ -7,4 +7,7 @@ void R_init_rsvg(DllInfo *info) {
   g_type_init();
   #endif
   #endif
+
+  R_registerRoutines(info, NULL, NULL, NULL, NULL);
+  R_useDynamicSymbols(info, TRUE);
 }
