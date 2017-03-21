@@ -10,15 +10,15 @@ matrix:
       sudo: required
       env: R_CODECOV=true
       r_check_args: '--use-valgrind'
-    - os: osx
-      osx_image: xcode8.1
+    - os: osx # Sierra
+      osx_image: xcode8.2
       brew_packages: librsvg
       latex: false
-    - os: osx
-      osx_image: xcode8.1
+    - os: osx # El Capitan
+      osx_image: xcode8
       disable_homebrew: true
       latex: false
-    - os: osx
+    - os: osx # Yosemite
       osx_image: beta-xcode6.4
       disable_homebrew: true
       latex: false
