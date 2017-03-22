@@ -1,6 +1,6 @@
 # rsvg
 
-##### *A New Format for Lossless and Lossy Image Compression*
+##### *Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays*
 
 [![Build Status](https://travis-ci.org/jeroen/rsvg.svg?branch=master)](https://travis-ci.org/jeroen/rsvg)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/rsvg)
