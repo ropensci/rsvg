@@ -1,5 +1,6 @@
 language: r
 cache: packages
+latex: false
 
 matrix:
   include:
@@ -7,21 +8,17 @@ matrix:
       dist: precise
     - os: linux
       dist: trusty
-      sudo: required
       env: R_CODECOV=true
       r_check_args: '--use-valgrind'
-    - os: osx # Sierra
-      osx_image: xcode8.2
+    - os: osx
+      osx_image: xcode8.3
       brew_packages: librsvg
-      latex: false
-    - os: osx # El Capitan
-      osx_image: xcode8
+    - os: osx
+      osx_image: xcode8.3
       disable_homebrew: true
-      latex: false
-    - os: osx # Yosemite
-      osx_image: beta-xcode6.4
+    - os: osx
+      osx_image: xcode7.3
       disable_homebrew: true
-      latex: false
 
 addons:
   apt:
