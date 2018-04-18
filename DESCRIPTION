@@ -1,7 +1,7 @@
 Package: rsvg
 Type: Package
 Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
-Version: 1.1
+Version: 1.2
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 Description: Renders vector-based svg images into high-quality custom-size bitmap
