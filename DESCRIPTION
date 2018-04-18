@@ -13,4 +13,6 @@ URL: https://github.com/jeroen/rsvg#readme
 BugReports: https://github.com/jeroen/rsvg/issues
 SystemRequirements: librsvg2
 RoxygenNote: 5.0.1
-Suggests: svglite, png, jpeg, webp, ggplot2
+Suggests:
+    spelling, svglite, png, jpeg, webp, ggplot2
+Language: en-US
