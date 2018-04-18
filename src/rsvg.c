@@ -1,3 +1,6 @@
+#define R_NO_REMAP
+#define STRICT_R_HEADERS
+
 #include <Rinternals.h>
 #include <librsvg/rsvg.h>
 #include <cairo.h>
@@ -34,20 +37,20 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
     height = dimensions.height;
     sx = sy = 1;
   } else if(rwidth != R_NilValue && rheight != R_NilValue){
-    width = asInteger(rwidth);
-    height = asInteger(rheight);
+    width = Rf_asInteger(rwidth);
+    height = Rf_asInteger(rheight);
     sx = width / dimensions.width;
     sy = height / dimensions.height;
   } else if(rwidth != R_NilValue){
-    width = asInteger(rwidth);
+    width = Rf_asInteger(rwidth);
     sx = sy = width / dimensions.width;
     height = round(dimensions.height * sy);
   } else {
-    height = asInteger(rheight);
+    height = Rf_asInteger(rheight);
     sx = sy = height / dimensions.height;
     width = round(dimensions.width * sx);
   }
-  switch(asInteger(format)){
+  switch(Rf_asInteger(format)){
   case 0:
     return write_bitmap(svg, width, height, sx, sy);
   case 1:
@@ -71,12 +74,12 @@ SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
   int stride = cairo_image_surface_get_stride(canvas); //should be equal to width * channels
   int size = stride * height;
   cairo_surface_flush(canvas);
-  SEXP image = PROTECT(allocVector(RAWSXP, size));
-  SEXP dim = allocVector(INTSXP, 3);
+  SEXP image = PROTECT(Rf_allocVector(RAWSXP, size));
+  SEXP dim = Rf_allocVector(INTSXP, 3);
   INTEGER(dim)[0] = 4;
   INTEGER(dim)[1] = width;
   INTEGER(dim)[2] = height;
-  setAttrib(image, mkString("dim"), dim);
+  Rf_setAttrib(image, R_DimSymbol, dim);
   memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
   UNPROTECT(1);
   g_object_unref(svg);
@@ -110,7 +113,7 @@ SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy){
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
-  SEXP res = allocVector(RAWSXP, mem.size);
+  SEXP res = Rf_allocVector(RAWSXP, mem.size);
   memcpy(RAW(res), mem.buf, mem.size);
   free(mem.buf);
   return res;
@@ -127,7 +130,7 @@ SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, 
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
-  SEXP res = allocVector(RAWSXP, buf.size);
+  SEXP res = Rf_allocVector(RAWSXP, buf.size);
   memcpy(RAW(res), buf.buf, buf.size);
   free(buf.buf);
   return res;
