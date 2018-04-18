@@ -2,6 +2,7 @@
 #define STRICT_R_HEADERS
 
 #include <Rinternals.h>
+#include <R_ext/Rdynload.h>
 #include <librsvg/rsvg.h>
 #include <cairo.h>
 #include <cairo-pdf.h>
@@ -10,14 +11,82 @@
 #include <stdlib.h>
 #include <string.h>
 
-SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy);
-SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy);
-SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*f) (cairo_write_func_t, void *, double, double));
-
 typedef struct {
   unsigned char *buf;
   size_t size;
 } memory;
+
+
+static SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
+  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+  int stride = cairo_image_surface_get_stride(canvas); //should be equal to width * channels
+  int size = stride * height;
+  cairo_surface_flush(canvas);
+  SEXP image = PROTECT(Rf_allocVector(RAWSXP, size));
+  SEXP dim = Rf_allocVector(INTSXP, 3);
+  INTEGER(dim)[0] = 4;
+  INTEGER(dim)[1] = width;
+  INTEGER(dim)[2] = height;
+  Rf_setAttrib(image, R_DimSymbol, dim);
+  memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
+  UNPROTECT(1);
+  g_object_unref(svg);
+  cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
+  return image;
+}
+
+static cairo_status_t write_func(void *ctx, const unsigned char *data, unsigned int length) {
+  memory *mem = (memory*) ctx;
+  #ifdef _WIN32
+    mem->buf = realloc(mem->buf, exp2(ceil(log2(mem->size + length))));
+  #else
+    mem->buf = realloc(mem->buf, mem->size + length);
+  #endif
+  if (!mem->buf)
+    return CAIRO_STATUS_WRITE_ERROR;
+  memcpy(&(mem->buf[mem->size]), data, length);
+  mem->size += length;
+  return CAIRO_STATUS_SUCCESS;
+}
+
+static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy){
+  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+  memory mem = {NULL, 0};
+  cairo_surface_write_to_png_stream(canvas, write_func, &mem);
+  cairo_surface_flush(canvas);
+  cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
+  SEXP res = Rf_allocVector(RAWSXP, mem.size);
+  memcpy(RAW(res), mem.buf, mem.size);
+  free(mem.buf);
+  return res;
+}
+
+static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
+  memory buf = {NULL, 0};
+  cairo_surface_t *canvas = fun(write_func, &buf, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+  cairo_surface_show_page(canvas);
+  cairo_surface_flush(canvas);
+  cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
+  SEXP res = Rf_allocVector(RAWSXP, buf.size);
+  memcpy(RAW(res), buf.buf, buf.size);
+  free(buf.buf);
+  return res;
+}
 
 SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
   GError *err = NULL;
@@ -65,73 +134,20 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
   return R_NilValue;
 }
 
-SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
-  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-  cairo_t *cr = cairo_create(canvas);
-  cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
-  int stride = cairo_image_surface_get_stride(canvas); //should be equal to width * channels
-  int size = stride * height;
-  cairo_surface_flush(canvas);
-  SEXP image = PROTECT(Rf_allocVector(RAWSXP, size));
-  SEXP dim = Rf_allocVector(INTSXP, 3);
-  INTEGER(dim)[0] = 4;
-  INTEGER(dim)[1] = width;
-  INTEGER(dim)[2] = height;
-  Rf_setAttrib(image, R_DimSymbol, dim);
-  memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
-  UNPROTECT(1);
-  g_object_unref(svg);
-  cairo_surface_destroy(canvas);
-  cairo_destroy(cr);
-  return image;
-}
 
-cairo_status_t write_func(void *ctx, const unsigned char *data, unsigned int length) {
-  memory *mem = (memory*) ctx;
-  #ifdef _WIN32
-    mem->buf = realloc(mem->buf, exp2(ceil(log2(mem->size + length))));
-  #else
-    mem->buf = realloc(mem->buf, mem->size + length);
-  #endif
-  if (!mem->buf)
-    return CAIRO_STATUS_WRITE_ERROR;
-  memcpy(&(mem->buf[mem->size]), data, length);
-  mem->size += length;
-  return CAIRO_STATUS_SUCCESS;
-}
+void R_init_rsvg(DllInfo *dll) {
 
-SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double sy){
-  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-  cairo_t *cr = cairo_create(canvas);
-  cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
-  memory mem = {NULL, 0};
-  cairo_surface_write_to_png_stream(canvas, write_func, &mem);
-  cairo_surface_flush(canvas);
-  cairo_surface_destroy(canvas);
-  cairo_destroy(cr);
-  SEXP res = Rf_allocVector(RAWSXP, mem.size);
-  memcpy(RAW(res), mem.buf, mem.size);
-  free(mem.buf);
-  return res;
-}
+#if !defined(LIBRSVG_MAJOR_VERSION) || LIBRSVG_MAJOR_VERSION == 2
+#if !defined(LIBRSVG_MINOR_VERSION) || LIBRSVG_MINOR_VERSION < 36
+  g_type_init();
+#endif
+#endif
 
-SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
-  memory buf = {NULL, 0};
-  cairo_surface_t *canvas = fun(write_func, &buf, width, height);
-  cairo_t *cr = cairo_create(canvas);
-  cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
-  cairo_surface_show_page(canvas);
-  cairo_surface_flush(canvas);
-  cairo_surface_destroy(canvas);
-  cairo_destroy(cr);
-  SEXP res = Rf_allocVector(RAWSXP, buf.size);
-  memcpy(RAW(res), buf.buf, buf.size);
-  free(buf.buf);
-  return res;
+  static const R_CallMethodDef CallEntries[] = {
+    {"R_rsvg", (DL_FUNC) &R_rsvg, 4},
+    {NULL, NULL, 0}
+  };
+
+  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+  R_useDynamicSymbols(dll, FALSE);
 }
