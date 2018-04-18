@@ -1,25 +1,28 @@
+VERSION=2.40.20
+RWINLIB=../windows/rsvg-$(VERSION)
+
 all: clean winlibs
 
 winlibs: clean
-	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R" $(VERSION)
 
 clean:
 	rm -f $(SHLIB) $(OBJECTS)
 
 PKG_CPPFLAGS= \
-	-I../windows/rsvg-2.40.16/include/librsvg-2.0 \
-	-I../windows/rsvg-2.40.16/include/glib-2.0 \
-	-I../windows/rsvg-2.40.16/lib${R_ARCH}/glib-2.0/include \
-	-I../windows/rsvg-2.40.16/include/gdk-pixbuf-2.0 \
-	-I../windows/rsvg-2.40.16/include/cairo
+	-I$(RWINLIB)/include/librsvg-2.0 \
+	-I$(RWINLIB)/include/glib-2.0 \
+	-I$(RWINLIB)/lib${R_ARCH}/glib-2.0/include \
+	-I$(RWINLIB)/include/gdk-pixbuf-2.0 \
+	-I$(RWINLIB)/include/cairo
 
 PKG_LIBS= \
-	-L../windows/rsvg-2.40.16/lib${R_ARCH} \
+	-L$(RWINLIB)/lib${R_ARCH} \
 	-lrsvg-2 \
 	-lxml2 -llzma \
-	-lpangocairo-1.0 -lpango-1.0 -lpangoft2-1.0 -lpangowin32-1.0 \
+	-lpangocairo-1.0 -lpango-1.0 -lpangoft2-1.0 -lpangowin32-1.0 -lfribidi \
 	-lcairo -lfontconfig -lfreetype -lpixman-1 -lexpat -lbz2 -lz \
 	-lharfbuzz -lcroco-0.6 -lgdk_pixbuf-2.0 \
 	-lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
-	-lffi -lpcre -lpng16 -lintl	-liconv \
+	-lffi -lpcre -lpng -lintl \
 	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -lwinmm -ldnsapi -lws2_32
