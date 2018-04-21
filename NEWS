@@ -1,5 +1,4 @@
 1.2
-  - Windows: update librsvg stack to rwinlib/rsvg@2.40.20
   - MacOS: use librsvg 2.40.19 because 2.42 has static linking bug
 
 1.1
