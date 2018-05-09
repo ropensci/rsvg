@@ -1,8 +1,7 @@
 language: r
 cache: packages
 latex: false
-
-r: 3.4
+fortran: false
 
 matrix:
   include:
