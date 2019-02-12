@@ -6,13 +6,11 @@ pandoc: false
 
 matrix:
   include:
-    - os: linux
-      env: R_CODECOV=true
+    - dist: trusty
+    - dist: xenial
     - os: osx
-      osx_image: xcode9.3
       brew_packages: librsvg
     - os: osx
-      osx_image: xcode9.3
       disable_homebrew: true
     - os: osx
       osx_image: xcode7.3
@@ -37,9 +35,6 @@ notifications:
   email:
     on_success: change
     on_failure: change
-
-after_success:
-  - if [[ "${R_CODECOV}" ]]; then R -e 'covr::codecov()'; fi
 
 before_install:
   - (while true; do echo 'Ping? Pong!'; sleep 500; done) &

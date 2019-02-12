@@ -4,7 +4,6 @@
 
 [![Build Status](https://travis-ci.org/jeroen/rsvg.svg?branch=master)](https://travis-ci.org/jeroen/rsvg)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/rsvg)
-[![Coverage Status](https://codecov.io/github/jeroen/rsvg/coverage.svg?branch=master)](https://codecov.io/github/jeroen/rsvg?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
 [![Github Stars](https://img.shields.io/github/stars/jeroen/rsvg.svg?style=social&label=Github)](https://github.com/jeroen/rsvg)
