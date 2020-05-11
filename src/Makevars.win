@@ -1,7 +1,7 @@
 VERSION=2.48.4
 RWINLIB=../windows/rsvg-$(VERSION)
 
-all: clean winlibs
+all: clean winlibs vista/polyfill.o
 
 winlibs: clean
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R" $(VERSION)
@@ -18,7 +18,7 @@ PKG_CPPFLAGS= \
 
 PKG_LIBS= \
 	-L$(RWINLIB)/lib${R_ARCH} \
-	-lrsvg-2 -lxml2 \
+	-lrsvg-2 vista/polyfill.o -lxml2 \
 	-lpangocairo-1.0 -lpango-1.0 -lpangowin32-1.0 \
 	-lcairo -lfreetype -lpixman-1 -lgdk_pixbuf-2.0 \
 	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
