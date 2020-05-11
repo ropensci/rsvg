@@ -23,4 +23,5 @@ PKG_LIBS= \
 	-lcairo -lfreetype -lpixman-1 -lgdk_pixbuf-2.0 \
 	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
 	-lffi -lpcre -lpng16 -lintl -lz -liconv -lfribidi \
-	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv
+	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv \
+	-Wl,--allow-multiple-definition
