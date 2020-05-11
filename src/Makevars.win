@@ -1,4 +1,4 @@
-VERSION=2.40.16
+VERSION=2.48.4
 RWINLIB=../windows/rsvg-$(VERSION)
 
 all: clean winlibs
@@ -18,11 +18,9 @@ PKG_CPPFLAGS= \
 
 PKG_LIBS= \
 	-L$(RWINLIB)/lib${R_ARCH} \
-	-lrsvg-2 \
-	-lxml2 -llzma \
-	-lpangocairo-1.0 -lpango-1.0 -lpangoft2-1.0 -lpangowin32-1.0 \
-	-lcairo -lfontconfig -lfreetype -lpixman-1 -lexpat -lbz2 -lz \
-	-lharfbuzz -lcroco-0.6 -lgdk_pixbuf-2.0 \
-	-lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
-	-lffi -lpcre -lpng16 -lintl -liconv \
-	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -lwinmm -ldnsapi -lws2_32
+	-lrsvg-2 -lxml2 \
+	-lpangocairo-1.0 -lpango-1.0 -lpangowin32-1.0 \
+	-lcairo -lfreetype -lpixman-1 -lgdk_pixbuf-2.0 \
+	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
+	-lffi -lpcre -lpng16 -lintl -lz -liconv -lfribidi \
+	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv
