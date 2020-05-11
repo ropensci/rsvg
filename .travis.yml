@@ -4,6 +4,8 @@ latex: false
 fortran: false
 pandoc: false
 
+r_check_args: '--no-manual'
+
 matrix:
   include:
     - dist: trusty
@@ -11,10 +13,13 @@ matrix:
     - os: osx
       brew_packages: librsvg
     - os: osx
+      osx_image: xcode10.1
       disable_homebrew: true
-    - os: osx
+    - r: 3.6
+      os: osx
       osx_image: xcode7.3
       disable_homebrew: true
+      before_install: sed -i.bak 's/-isysroot /-I/g' $(R RHOME)/etc/Makeconf
 
 addons:
   apt:
@@ -23,18 +28,3 @@ addons:
       - librsvg2-bin
       - libwebp-dev
       - libicu-dev
-      - valgrind
-
-r_github_packages:
-  - jimhester/covr
-
-warnings_are_errors: true
-#r_check_revdep: true
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
-
-before_install:
-  - (while true; do echo 'Ping? Pong!'; sleep 500; done) &
