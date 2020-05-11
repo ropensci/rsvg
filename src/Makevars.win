@@ -1,13 +1,13 @@
 VERSION=2.48.4
 RWINLIB=../windows/rsvg-$(VERSION)
 
-all: clean winlibs vista/polyfill.o
+POLYFILL = vista/polyfill.o
+STATLIB = libpolyfill.a
+
+all: clean winlibs
 
 winlibs: clean
 	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R" $(VERSION)
-
-clean:
-	rm -f $(SHLIB) $(OBJECTS)
 
 PKG_CPPFLAGS= \
 	-I$(RWINLIB)/include/librsvg-2.0 \
@@ -18,10 +18,19 @@ PKG_CPPFLAGS= \
 
 PKG_LIBS= \
 	-L$(RWINLIB)/lib${R_ARCH} \
-	-lrsvg-2 vista/polyfill.o -lxml2 \
+	-lrsvg-2 -L. -lpolyfill -lxml2 \
 	-lpangocairo-1.0 -lpango-1.0 -lpangowin32-1.0 \
 	-lcairo -lfreetype -lpixman-1 -lgdk_pixbuf-2.0 \
 	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
 	-lffi -lpcre -lpng16 -lintl -lz -liconv -lfribidi \
 	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv \
 	-Wl,--allow-multiple-definition
+
+$(SHLIB): $(STATLIB)
+
+$(STATLIB): $(POLYFILL)
+	$(AR) rcs $(STATLIB) $(POLYFILL)
+
+clean:
+	rm -f $(SHLIB) $(OBJECTS)
+
