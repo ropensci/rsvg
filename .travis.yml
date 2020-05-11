@@ -28,3 +28,4 @@ addons:
       - librsvg2-bin
       - libwebp-dev
       - libicu-dev
+      - libmagick++-dev

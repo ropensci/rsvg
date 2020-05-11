@@ -2,12 +2,12 @@
 % Please edit documentation in R/rsvg.R
 \name{rsvg}
 \alias{rsvg}
-\alias{rsvg_pdf}
-\alias{rsvg_png}
-\alias{rsvg_ps}
 \alias{rsvg_raw}
-\alias{rsvg_svg}
 \alias{rsvg_webp}
+\alias{rsvg_png}
+\alias{rsvg_pdf}
+\alias{rsvg_svg}
+\alias{rsvg_ps}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL)
@@ -48,19 +48,21 @@ svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
-# render it into a bitmap array
-bitmap <- rsvg(tmp, height = 1440)
-dim(bitmap) # h*w*c
-
-png::writePNG(bitmap, "bitmap.png", dpi = 144)
-jpeg::writeJPEG(bitmap, "bitmap.jpg", quality = 1)
-webp::write_webp(bitmap, "bitmap.webp", quality = 100)
-
-
-# render straight to output format
+# convert directly into a bitmap format
 rsvg_pdf(tmp, "out.pdf")
 rsvg_png(tmp, "out.png")
 rsvg_svg(tmp, "out.svg")
 rsvg_ps(tmp, "out.ps")
-}
 
+# render into raw bitmap array
+bitmap <- rsvg(tmp, height = 1440)
+dim(bitmap) # h*w*c
+
+# read in your package of choice
+magick::image_read(bitmap)
+png::writePNG(bitmap, "bitmap.png", dpi = 144)
+webp::write_webp(bitmap, "bitmap.webp", quality = 100)
+
+# cleanup
+unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.png", "bitmap.webp"))
+}

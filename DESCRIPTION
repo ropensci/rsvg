@@ -14,5 +14,5 @@ BugReports: https://github.com/jeroen/rsvg/issues
 SystemRequirements: librsvg2
 RoxygenNote: 7.1.0
 Suggests:
-    spelling, svglite, png, jpeg, webp, ggplot2
+    spelling, svglite, magick, png, webp, ggplot2
 Language: en-US
