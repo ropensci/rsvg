@@ -4,8 +4,6 @@ latex: false
 fortran: false
 pandoc: false
 
-r_check_args: '--no-manual'
-
 matrix:
   include:
     - dist: trusty
