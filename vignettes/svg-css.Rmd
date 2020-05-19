@@ -44,7 +44,9 @@ knitr::include_graphics("ex1.png")
 
 ## SVG with external CSS 
 
-Recent versions of librsvg can also apply an external CSS file to the SVG. Hence we can split the drawing semantics from the styling. The external "css" paramter requires a somewhat recent version of librsvg so it may not work on older Linux systems. But it works for sure on any MacOS or Windows, and the latest versions of Ubuntu, Debian, Fedora, etc.
+Recent versions of librsvg can also apply an external CSS file to the SVG. This has the same effect as an external CSS file that is embedded in header of an HTML file.
+
+By using an external CSS, we can split the drawing structure from the styling. The new "css" parameter requires a somewhat recent version of librsvg so it may not work on older Linux systems. It is available on any MacOS or Windows, and the latest versions of Ubuntu, Debian, Fedora, etc.
 
 
 ```{r}
