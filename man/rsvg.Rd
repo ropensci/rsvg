@@ -63,9 +63,8 @@ dim(bitmap) # h*w*c
 
 # read in your package of choice
 magick::image_read(bitmap)
-png::writePNG(bitmap, "bitmap.png", dpi = 144)
 webp::write_webp(bitmap, "bitmap.webp", quality = 100)
 
 # cleanup
-unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.png", "bitmap.webp"))
+unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.webp"))
 }
