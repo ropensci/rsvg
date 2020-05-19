@@ -11,6 +11,8 @@
 #' an SVG string into raw data.
 #' @param width output width in pixels or \code{NULL} for default.
 #' @param height output height in pixels or \code{NULL} for default
+#' @param css path/url to external css file or raw vector with css data. This
+#' requires your system has a recent version of librsvg.
 #' @rdname rsvg
 #' @examples # create some svg
 #' options(example.ask=FALSE)
@@ -36,59 +38,65 @@
 #'
 #' # cleanup
 #' unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.png", "bitmap.webp"))
-rsvg <- function(svg, width = NULL, height = NULL) {
-  out <- rsvg_raw(svg, width, height)
+rsvg <- function(svg, width = NULL, height = NULL, css = NULL) {
+  out <- rsvg_raw(svg, width = width, height = height, css = css)
   out <- structure(as.numeric(out)/255, dim = dim(out))
   aperm(out) # Convert to standard with*height*rgba
 }
 
 #' @rdname rsvg
 #' @export
-rsvg_raw <- function(svg, width = NULL, height = NULL) {
-  svg <- svg_data(svg)
+rsvg_raw <- function(svg, width = NULL, height = NULL, css = NULL) {
+  svg <- read_data(svg)
+  if(length(css)){
+    css <- read_data(css)
+  }
   stopifnot(is.null(width) || is.numeric(width))
   stopifnot(is.null(height) || is.numeric(height))
-  out <- .Call(R_rsvg, svg, width, height, 0L)
+  out <- .Call(R_rsvg, svg, width, height, 0L, css)
   out[c(3,2,1,4),,, drop = FALSE]
 }
 
 #' @rdname rsvg
 #' @export
-rsvg_webp <- function(svg, file = NULL, width = NULL, height = NULL) {
-  out <- rsvg_raw(svg, width, height)
+rsvg_webp <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  out <- rsvg_raw(svg, width = width, height = height, css = css)
   webp::write_webp(out, file, 100)
 }
 
 #' @rdname rsvg
 #' @export
 #' @param file path to output file or \code{NULL} to return content as raw vector
-rsvg_png <- function(svg, file = NULL, width = NULL, height = NULL) {
-  rsvg_format(svg, file, width, height, 1L)
+rsvg_png <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 1L)
 }
 
 #' @rdname rsvg
 #' @export
-rsvg_pdf <- function(svg, file = NULL, width = NULL, height = NULL) {
-  rsvg_format(svg, file, width, height, 2L)
+rsvg_pdf <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 2L)
 }
 
 #' @rdname rsvg
 #' @export
-rsvg_svg <- function(svg, file = NULL, width = NULL, height = NULL) {
-  rsvg_format(svg, file, width, height, 3L)
+rsvg_svg <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 3L)
 }
 
 #' @rdname rsvg
 #' @export
-rsvg_ps <- function(svg, file = NULL, width = NULL, height = NULL) {
-  rsvg_format(svg, file, width, height, 4L)
+rsvg_ps <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 4L)
 }
 
-rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, format = 0) {
-  svg <- svg_data(svg)
+rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL, format = 0) {
+  svg <- read_data(svg)
+  if(length(css)){
+    css <- read_data(css)
+  }
   stopifnot(is.null(width) || is.numeric(width))
   stopifnot(is.null(height) || is.numeric(height))
-  out <- .Call(R_rsvg, svg, width, height, format)
+  out <- .Call(R_rsvg, svg, width, height, format, css)
   if(is.character(file)){
     writeBin(out, file[1])
   } else {
@@ -96,7 +104,7 @@ rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, format = 
   }
 }
 
-svg_data <- function(svg){
+read_data <- function(svg){
   if(is.character(svg)){
     if(grepl("^https?://", svg)){
       con <- url(svg, "rb")
@@ -108,7 +116,7 @@ svg_data <- function(svg){
     } else if(file.exists(svg)){
       svg <- readBin(svg, raw(), file.info(svg)$size)
     } else {
-      stop("Argument 'svg' must be a file path, url, or raw vector.")
+      stop("Argument 'svg' or 'css' must be a file path, url, or raw vector.")
     }
   }
   stopifnot(is.raw(svg))

@@ -65,6 +65,7 @@ static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double 
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
+  g_object_unref(svg);
   SEXP res = Rf_allocVector(RAWSXP, mem.size);
   memcpy(RAW(res), mem.buf, mem.size);
   free(mem.buf);
@@ -82,17 +83,29 @@ static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, doub
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
+  g_object_unref(svg);
   SEXP res = Rf_allocVector(RAWSXP, buf.size);
   memcpy(RAW(res), buf.buf, buf.size);
   free(buf.buf);
   return res;
 }
 
-SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format){
+SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   GError *err = NULL;
   RsvgHandle *svg = rsvg_handle_new_from_data (RAW(data), LENGTH(data), &err);
   if(err != NULL)
     Rf_error("Failed to parse svg: %s", err->message);
+  if(Rf_length(css)){
+#ifdef LIBRSVG_HAVE_CSS
+  if(!rsvg_handle_set_stylesheet(svg, (const char *) RAW(css), Rf_length(css),  &err) || err){
+    //Note: this doesn't seem to work? Looks like rsvg_handle_set_stylesheet never fails.
+    g_object_unref(svg);
+    Rf_error("Failed to load css stylesheet: %s", err ? err->message : "");
+  }
+#else
+    Rf_warning("A CSS stylesheet was specified but your version of librsvg is too old.")
+#endif
+  }
   RsvgDimensionData dimensions;
   rsvg_handle_get_dimensions(svg, &dimensions);
 
@@ -144,7 +157,7 @@ void R_init_rsvg(DllInfo *dll) {
 #endif
 
   static const R_CallMethodDef CallEntries[] = {
-    {"R_rsvg", (DL_FUNC) &R_rsvg, 4},
+    {"R_rsvg", (DL_FUNC) &R_rsvg, 5},
     {NULL, NULL, 0}
   };
 

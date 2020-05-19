@@ -10,19 +10,19 @@
 \alias{rsvg_ps}
 \title{Render SVG into Bitmap}
 \usage{
-rsvg(svg, width = NULL, height = NULL)
+rsvg(svg, width = NULL, height = NULL, css = NULL)
 
-rsvg_raw(svg, width = NULL, height = NULL)
+rsvg_raw(svg, width = NULL, height = NULL, css = NULL)
 
-rsvg_webp(svg, file = NULL, width = NULL, height = NULL)
+rsvg_webp(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
-rsvg_png(svg, file = NULL, width = NULL, height = NULL)
+rsvg_png(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
-rsvg_pdf(svg, file = NULL, width = NULL, height = NULL)
+rsvg_pdf(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
-rsvg_svg(svg, file = NULL, width = NULL, height = NULL)
+rsvg_svg(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
-rsvg_ps(svg, file = NULL, width = NULL, height = NULL)
+rsvg_ps(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 }
 \arguments{
 \item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
@@ -31,6 +31,9 @@ an SVG string into raw data.}
 \item{width}{output width in pixels or \code{NULL} for default.}
 
 \item{height}{output height in pixels or \code{NULL} for default}
+
+\item{css}{path/url to external css file or raw vector with css data. This
+requires your system has a recent version of librsvg.}
 
 \item{file}{path to output file or \code{NULL} to return content as raw vector}
 }
