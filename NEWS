@@ -1,3 +1,7 @@
+2.1
+  - Expose 'css' parameter
+  - Add vignette 'Rendering SVG with CSS in R'
+
 2.0
   - Windows, Mac: upgrade to librsvg 2.48.4. This is a major upgrade, librsvg
     has been rewritten completely in rust based on Mozilla Servo.
