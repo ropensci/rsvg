@@ -104,7 +104,7 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
     Rf_error("Failed to load css stylesheet: %s", err ? err->message : "");
   }
 #else
-    Rf_warning("A CSS stylesheet was specified but your version of librsvg is too old.");
+    Rf_warning("An external CSS file was specified but this requires at least librsvg 2.48 (you have %s)", LIBRSVG_VERSION);
 #endif
   }
   RsvgDimensionData dimensions;
