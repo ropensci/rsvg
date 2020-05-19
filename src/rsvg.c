@@ -96,14 +96,15 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   if(err != NULL)
     Rf_error("Failed to parse svg: %s", err->message);
   if(Rf_length(css)){
-#ifdef LIBRSVG_HAVE_CSS
+#if LIBRSVG_CHECK_VERSION(2,48,0)
   if(!rsvg_handle_set_stylesheet(svg, (const char *) RAW(css), Rf_length(css),  &err) || err){
-    //Note: this doesn't seem to work? Looks like rsvg_handle_set_stylesheet never fails.
+    //Note: this doesn't seem to work?
+    //Looks like rsvg_handle_set_stylesheet never fails.
     g_object_unref(svg);
     Rf_error("Failed to load css stylesheet: %s", err ? err->message : "");
   }
 #else
-    Rf_warning("A CSS stylesheet was specified but your version of librsvg is too old.")
+    Rf_warning("A CSS stylesheet was specified but your version of librsvg is too old.");
 #endif
   }
   RsvgDimensionData dimensions;
