@@ -1,0 +1,91 @@
+---
+title: "Rendering SVG with CSS in R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Rendering SVG with CSS in R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(rsvg)
+```
+
+The `rsvg` R package provides bindings to [librsvg-2](https://developer.gnome.org/rsvg/stable/) to render SVG files into bitmaps directly from R. On Linux systems, you need to install librsvg from `apt` or `yum` before installing the R package from CRAN. On Windows and MacOS this is not needed.
+
+
+
+
+## SVG with embedded CSS 
+
+This [Mozilla example](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/style) shows that the SVG specification allows for a `style` element, which is also supported in all browsers. Embedded CSS is supported in all versions of librsvg, but the quality of css rendering has improved a lot in recent versions of librsvg.
+
+
+```{r}
+str <- charToRaw('<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    circle {
+      fill: gold;
+      stroke: maroon;
+      stroke-width: 10px;
+    }
+  </style>
+
+  <circle cx="150" cy="150" r="100" />
+</svg>')
+rsvg_png(str, file = 'ex1.png')
+```
+
+```{r, echo=FALSE, fig.cap="Rendering of SVG with embedded CSS"}
+knitr::include_graphics("ex1.png")
+```
+
+
+## SVG with external CSS 
+
+Recent versions of librsvg can also apply an external CSS file to the SVG. Hence we can split the drawing semantics from the styling. The external "css" paramter requires a somewhat recent version of librsvg so it may not work on older Linux systems. But it works for sure on any MacOS or Windows, and the latest versions of Ubuntu, Debian, Fedora, etc.
+
+
+```{r}
+svg <- charToRaw('<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="150" cy="150" r="100" />
+</svg>')
+
+# Render without style:
+rsvg_png(svg, file = 'ex2.png')
+```
+
+```{r, echo=FALSE, fig.cap="Rendering of SVG without CSS"}
+knitr::include_graphics("ex2.png")
+```
+
+```{r}
+css <- charToRaw('circle {
+  fill: navy;
+  stroke: hotpink;
+  stroke-width: 10px;
+}')
+# Render without style:
+rsvg_png(svg, css = css, file = 'ex3.png')
+```
+
+```{r, echo=FALSE, fig.cap="Rendering of SVG with external CSS"}
+knitr::include_graphics("ex3.png")
+```
+
+## Bitmap rendering and magick
+
+The examples above write the rendered SVG file directly to a PNG file on disk. But you can also render the SVG to an in-memory bitmap buffer.
+
+```{r}
+bitmap <- rsvg_raw('https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg',
+                   width = 600)
+str(bitmap)
+```
+
+The `bitmap` object is an array in R that contain the pixels of the image. You can read it for example using the `magick` package for subsequent image editing, or to save it to a standard format.
+
+```{r}
+magick::image_read(bitmap)
+```
