@@ -81,8 +81,7 @@ knitr::include_graphics("ex3.png")
 The examples above write the rendered SVG file directly to a PNG file on disk. But you can also render the SVG to an in-memory bitmap buffer.
 
 ```{r}
-bitmap <- rsvg_raw('https://upload.wikimedia.org/wikipedia/commons/f/fd/Ghostscript_Tiger.svg',
-                   width = 600)
+bitmap <- rsvg_raw('https://jeroen.github.io/images/tiger.svg', width = 600)
 str(bitmap)
 ```
 
