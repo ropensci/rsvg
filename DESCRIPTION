@@ -1,7 +1,7 @@
 Package: rsvg
 Type: Package
 Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
-Version: 2.1
+Version: 2.1.1
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289"))
 Description: Renders vector-based svg images into high-quality custom-size bitmap
@@ -12,14 +12,14 @@ License: MIT + file LICENSE
 URL: https://github.com/jeroen/rsvg#readme
 BugReports: https://github.com/jeroen/rsvg/issues
 SystemRequirements: librsvg2
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests:
     spelling, 
     svglite, 
     magick, 
     webp, 
     ggplot2,
-    knitr
+    knitr,
+    rmarkdown
 Language: en-US
 VignetteBuilder: knitr
-
