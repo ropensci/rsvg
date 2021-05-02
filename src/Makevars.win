@@ -1,4 +1,4 @@
-VERSION = 2.50.5
+VERSION = 2.48.8
 RWINLIB = ../windows/rsvg-$(VERSION)
 
 all: clean winlibs

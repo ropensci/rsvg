@@ -1,5 +1,5 @@
 2.1.2
-  - Windows: update to librsvg 2.50.5
+  - Windows: update to librsvg v2.48.8
   - Add ucrt64 support
 
 2.1.1
