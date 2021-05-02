@@ -1,3 +1,10 @@
+2.1.2
+  - Windows: update to librsvg 2.50.5
+  - Add ucrt64 support
+
+2.1.1
+  - CRAN stuff
+
 2.1
   - Expose 'css' parameter
   - Add vignette 'Rendering SVG with CSS in R'
