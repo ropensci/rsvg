@@ -97,7 +97,7 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
     Rf_error("Failed to parse svg: %s", err->message);
   if(Rf_length(css)){
 #if LIBRSVG_CHECK_VERSION(2,48,0)
-  if(!rsvg_handle_set_stylesheet(svg, (const char *) RAW(css), Rf_length(css),  &err) || err){
+  if(!rsvg_handle_set_stylesheet(svg, (const unsigned char *) RAW(css), Rf_length(css),  &err) || err){
     //Note: this doesn't seem to work?
     //Looks like rsvg_handle_set_stylesheet never fails.
     g_object_unref(svg);
@@ -148,6 +148,9 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   return R_NilValue;
 }
 
+SEXP R_librsvg_version(){
+  return Rf_mkString(LIBRSVG_VERSION);
+}
 
 void R_init_rsvg(DllInfo *dll) {
 
@@ -159,6 +162,7 @@ void R_init_rsvg(DllInfo *dll) {
 
   static const R_CallMethodDef CallEntries[] = {
     {"R_rsvg", (DL_FUNC) &R_rsvg, 5},
+    {"R_librsvg_version", (DL_FUNC) &R_librsvg_version, 0},
     {NULL, NULL, 0}
   };
 
