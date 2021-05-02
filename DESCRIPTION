@@ -1,7 +1,7 @@
 Package: rsvg
 Type: Package
 Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
-Version: 2.1.1
+Version: 2.1.2
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289"))
 Description: Renders vector-based svg images into high-quality custom-size bitmap
