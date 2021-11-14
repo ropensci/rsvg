@@ -7,3 +7,4 @@
 ^appveyor\.yml$
 ^README.md$
 ^configure.log$
+^\.github$
