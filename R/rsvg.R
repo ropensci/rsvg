@@ -21,11 +21,12 @@
 #' ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 #' dev.off()
 #'
-#' # convert directly into a bitmap format
+#' # convert directly into a vector or bitmap graphics format
 #' rsvg_pdf(tmp, "out.pdf")
 #' rsvg_png(tmp, "out.png")
 #' rsvg_svg(tmp, "out.svg")
 #' rsvg_ps(tmp, "out.ps")
+#' rsvg_eps(tmp, "out.eps")
 #'
 #' # render into raw bitmap array
 #' bitmap <- rsvg(tmp, height = 1440)
