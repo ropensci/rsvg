@@ -8,6 +8,7 @@
 \alias{rsvg_pdf}
 \alias{rsvg_svg}
 \alias{rsvg_ps}
+\alias{rsvg_eps}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL, css = NULL)
@@ -23,6 +24,8 @@ rsvg_pdf(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 rsvg_svg(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
 rsvg_ps(svg, file = NULL, width = NULL, height = NULL, css = NULL)
+
+rsvg_eps(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 }
 \arguments{
 \item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert

@@ -2,6 +2,7 @@
 
 export(librsvg_version)
 export(rsvg)
+export(rsvg_eps)
 export(rsvg_pdf)
 export(rsvg_png)
 export(rsvg_ps)

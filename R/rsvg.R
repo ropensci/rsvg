@@ -88,7 +88,13 @@ rsvg_ps <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
   rsvg_format(svg, file, width = width, height = height, css = css, format = 4L)
 }
 
-rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL, format = 0) {
+#' @rdname rsvg
+#' @export
+rsvg_eps <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 5L)
+}
+
+rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL, format = 0L) {
   svg <- read_data(svg)
   if(length(css)){
     css <- read_data(css)
