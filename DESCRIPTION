@@ -1,26 +1,31 @@
-Package: rsvg
 Type: Package
-Title: Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
-Version: 2.1.2
-Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
-    comment = c(ORCID = "0000-0002-4035-0289"))
-Description: Renders vector-based svg images into high-quality custom-size bitmap
-    arrays using 'librsvg2'. The resulting bitmap can be written to e.g. png, jpeg
-    or webp format. In addition, the package can convert images directly to various
-    formats such as pdf or postscript.
+Package: rsvg
+Title: Render SVG Images into PDF, PNG, (Encapsulated) PostScript, or Bitmap Arrays
+Version: 2.1.2.9000
+Authors@R: c(
+    person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4035-0289")),
+    person("Salim", "Brüggemann", , "salim-b@pm.me", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-5329-5987"))
+  )
+Description: Renders vector-based svg images into high-quality custom-size
+    bitmap arrays using 'librsvg2'. The resulting bitmap can be written to
+    e.g. png, jpeg or webp format. In addition, the package can convert
+    images directly to various formats such as pdf or postscript.
 License: MIT + file LICENSE
 URL: https://github.com/jeroen/rsvg#readme
 BugReports: https://github.com/jeroen/rsvg/issues
-SystemRequirements: librsvg2
-RoxygenNote: 7.1.1
 Suggests:
-    spelling, 
-    svglite, 
-    magick, 
-    webp, 
     ggplot2,
     knitr,
-    rmarkdown
-Language: en-US
-VignetteBuilder: knitr
+    magick,
+    rmarkdown,
+    spelling,
+    svglite,
+    webp
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.1.2
+SystemRequirements: librsvg2
