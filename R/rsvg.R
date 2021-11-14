@@ -21,11 +21,12 @@
 #' ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 #' dev.off()
 #'
-#' # convert directly into a bitmap format
+#' # convert directly into a vector or bitmap graphics format
 #' rsvg_pdf(tmp, "out.pdf")
 #' rsvg_png(tmp, "out.png")
 #' rsvg_svg(tmp, "out.svg")
 #' rsvg_ps(tmp, "out.ps")
+#' rsvg_eps(tmp, "out.eps")
 #'
 #' # render into raw bitmap array
 #' bitmap <- rsvg(tmp, height = 1440)
@@ -88,7 +89,13 @@ rsvg_ps <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
   rsvg_format(svg, file, width = width, height = height, css = css, format = 4L)
 }
 
-rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL, format = 0) {
+#' @rdname rsvg
+#' @export
+rsvg_eps <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL) {
+  rsvg_format(svg, file, width = width, height = height, css = css, format = 5L)
+}
+
+rsvg_format <- function(svg, file = NULL, width = NULL, height = NULL, css = NULL, format = 0L) {
   svg <- read_data(svg)
   if(length(css)){
     css <- read_data(css)

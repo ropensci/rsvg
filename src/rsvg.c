@@ -72,9 +72,11 @@ static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double 
   return res;
 }
 
-static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double)) {
+static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, double sy, cairo_surface_t* (*fun) (cairo_write_func_t, void *, double, double), cairo_bool_t is_eps) {
   memory buf = {NULL, 0};
   cairo_surface_t *canvas = fun(write_func, &buf, width, height);
+  if(is_eps)
+    cairo_ps_surface_set_eps(canvas, TRUE);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
   if(!rsvg_handle_render_cairo(svg, cr))
@@ -139,11 +141,13 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   case 1:
     return write_png(svg, width, height, sx, sy);
   case 2:
-    return write_stream(svg, width, height, sx, sy, cairo_pdf_surface_create_for_stream);
+    return write_stream(svg, width, height, sx, sy, cairo_pdf_surface_create_for_stream, FALSE);
   case 3:
-    return write_stream(svg, width, height, sx, sy, cairo_svg_surface_create_for_stream);
+    return write_stream(svg, width, height, sx, sy, cairo_svg_surface_create_for_stream, FALSE);
   case 4:
-    return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream);
+    return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream, FALSE);
+  case 5:
+    return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream, TRUE);
   }
   return R_NilValue;
 }

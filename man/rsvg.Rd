@@ -8,6 +8,7 @@
 \alias{rsvg_pdf}
 \alias{rsvg_svg}
 \alias{rsvg_ps}
+\alias{rsvg_eps}
 \title{Render SVG into Bitmap}
 \usage{
 rsvg(svg, width = NULL, height = NULL, css = NULL)
@@ -23,6 +24,8 @@ rsvg_pdf(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 rsvg_svg(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
 rsvg_ps(svg, file = NULL, width = NULL, height = NULL, css = NULL)
+
+rsvg_eps(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 }
 \arguments{
 \item{svg}{path/url to svg file or raw vector with svg data. Use \link{charToRaw} to convert
@@ -51,11 +54,12 @@ svglite::svglite(tmp, width = 10, height = 7)
 ggplot2::qplot(mpg, wt, data = mtcars, colour = factor(cyl))
 dev.off()
 
-# convert directly into a bitmap format
+# convert directly into a vector or bitmap graphics format
 rsvg_pdf(tmp, "out.pdf")
 rsvg_png(tmp, "out.png")
 rsvg_svg(tmp, "out.svg")
 rsvg_ps(tmp, "out.ps")
+rsvg_eps(tmp, "out.eps")
 
 # render into raw bitmap array
 bitmap <- rsvg(tmp, height = 1440)
