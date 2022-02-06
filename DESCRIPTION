@@ -1,7 +1,7 @@
 Type: Package
 Package: rsvg
 Title: Render SVG Images into PDF, PNG, (Encapsulated) PostScript, or Bitmap Arrays
-Version: 2.1.2.9000
+Version: 2.1.9000
 Authors@R: c(
     person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4035-0289")),
