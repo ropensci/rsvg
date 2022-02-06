@@ -2,8 +2,6 @@
 
 ##### *Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays*
 
-[![Build Status](https://travis-ci.org/jeroen/rsvg.svg?branch=master)](https://travis-ci.org/jeroen/rsvg)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/rsvg?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/rsvg)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
 [![Github Stars](https://img.shields.io/github/stars/jeroen/rsvg.svg?style=social&label=Github)](https://github.com/jeroen/rsvg)
@@ -50,13 +48,13 @@ Binary packages for __OS-X__ or __Windows__ can be installed directly from CRAN:
 install.packages("rsvg")
 ```
 
-Installation from source on Linux or OSX requires [`librsvg2`](https://developer.gnome.org/rsvg/). On __Debian__ or __Ubuntu__ install [librsvg2-dev](https://packages.debian.org/testing/librsvg2-dev):
+Installation from source on Linux or OSX requires [`librsvg2`](https://wiki.gnome.org/Projects/LibRsvg). On __Debian__ or __Ubuntu__ install [librsvg2-dev](https://packages.debian.org/testing/librsvg2-dev):
 
 ```
 sudo apt-get install -y librsvg2-dev
 ```
 
-On __Fedora__, __CentOS or RHEL__ we need [librsvg2-devel](https://apps.fedoraproject.org/packages/librsvg2-devel):
+On __Fedora__, __CentOS or RHEL__ we need [librsvg2-devel](https://src.fedoraproject.org/rpms/librsvg2):
 
 ```
 sudo yum install librsvg2-devel

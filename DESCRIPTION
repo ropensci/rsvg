@@ -6,14 +6,13 @@ Authors@R: c(
     person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-4035-0289")),
     person("Salim", "Brüggemann", , "salim-b@pm.me", role = c("ctb"),
-           comment = c(ORCID = "0000-0002-5329-5987"))
-  )
+           comment = c(ORCID = "0000-0002-5329-5987")))
 Description: Renders vector-based svg images into high-quality custom-size
     bitmap arrays using 'librsvg2'. The resulting bitmap can be written to
     e.g. png, jpeg or webp format. In addition, the package can convert
     images directly to various formats such as pdf or postscript.
 License: MIT + file LICENSE
-URL: https://github.com/jeroen/rsvg#readme
+URL: https://github.com/jeroen/rsvg
 BugReports: https://github.com/jeroen/rsvg/issues
 Suggests:
     ggplot2,

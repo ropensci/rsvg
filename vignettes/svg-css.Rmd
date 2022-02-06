@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(rsvg)
 ```
 
-The `rsvg` R package provides bindings to [librsvg-2](https://developer.gnome.org/rsvg/stable/) to render SVG files into bitmaps directly from R. On Linux systems, you need to install librsvg from `apt` or `yum` before installing the R package from CRAN. On Windows and MacOS this is not needed.
+The `rsvg` R package provides bindings to [librsvg-2](https://wiki.gnome.org/Projects/LibRsvg) to render SVG files into bitmaps directly from R. On Linux systems, you need to install librsvg from `apt` or `yum` before installing the R package from CRAN. On Windows and MacOS this is not needed.
 
 
 
