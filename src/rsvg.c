@@ -16,13 +16,26 @@ typedef struct {
   size_t size;
 } memory;
 
+void setup_render_handle(RsvgHandle *svg, cairo_t *cr){
+#if LIBRSVG_CHECK_VERSION(2,52,0)
+  GError *err = NULL;
+  RsvgRectangle viewport = {0.0};
+  //viewport.width = width;
+  //viewport.height = height;
+  rsvg_handle_render_document(svg, cr, &viewport, &err);
+  if(err != NULL)
+    Rf_error("Failure in rsvg_handle_render_document: %s", err->message);
+#else
+  if(!rsvg_handle_render_cairo(svg, cr))
+    Rf_error("Cairo failed to render svg");
+#endif
+}
 
 static SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, double sy){
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
+  setup_render_handle(svg, cr);
   int stride = cairo_image_surface_get_stride(canvas); //should be equal to width * channels
   int size = stride * height;
   cairo_surface_flush(canvas);
@@ -58,8 +71,7 @@ static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double 
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
+  setup_render_handle(svg, cr);
   memory mem = {NULL, 0};
   cairo_surface_write_to_png_stream(canvas, write_func, &mem);
   cairo_surface_flush(canvas);
@@ -79,8 +91,7 @@ static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, doub
     cairo_ps_surface_set_eps(canvas, TRUE);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  if(!rsvg_handle_render_cairo(svg, cr))
-    Rf_error("Cairo failed to render svg");
+  setup_render_handle(svg, cr);
   cairo_surface_show_page(canvas);
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
@@ -109,8 +120,17 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
     Rf_warning("An external CSS file was specified but this requires at least librsvg 2.48 (you have %s)", LIBRSVG_VERSION);
 #endif
   }
+#if LIBRSVG_CHECK_VERSION(2,52,0)
+  gdouble input_width, input_height;
+  rsvg_handle_get_intrinsic_size_in_pixels (svg, &input_width, &input_height);
+  //REprintf("Size: %fx%f\n", input_width, input_height);
+#else
   RsvgDimensionData dimensions;
   rsvg_handle_get_dimensions(svg, &dimensions);
+  int input_width = dimensions.width;
+  int input_height = dimensions.height;
+  //REprintf("Size: %fx%f\n", (double)input_width, (double)input_height);
+#endif
 
   //scale into the requested resolution
   double width;
@@ -118,22 +138,22 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   double sx;
   double sy;
   if(rwidth == R_NilValue && rheight == R_NilValue){
-    width = dimensions.width;
-    height = dimensions.height;
+    width = input_width;
+    height = input_height;
     sx = sy = 1;
   } else if(rwidth != R_NilValue && rheight != R_NilValue){
     width = Rf_asInteger(rwidth);
     height = Rf_asInteger(rheight);
-    sx = width / dimensions.width;
-    sy = height / dimensions.height;
+    sx = width / input_width;
+    sy = height / input_height;
   } else if(rwidth != R_NilValue){
     width = Rf_asInteger(rwidth);
-    sx = sy = width / dimensions.width;
-    height = round(dimensions.height * sy);
+    sx = sy = width / input_width;
+    height = round(input_height * sy);
   } else {
     height = Rf_asInteger(rheight);
-    sx = sy = height / dimensions.height;
-    width = round(dimensions.width * sx);
+    sx = sy = height / input_height;
+    width = round(input_width * sx);
   }
   switch(Rf_asInteger(format)){
   case 0:
