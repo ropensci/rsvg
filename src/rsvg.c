@@ -121,8 +121,15 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
 #endif
   }
 #if LIBRSVG_CHECK_VERSION(2,52,0)
-  gdouble input_width, input_height;
-  rsvg_handle_get_intrinsic_size_in_pixels (svg, &input_width, &input_height);
+  gboolean has_width;
+  RsvgLength in_width;
+  gboolean has_height;
+  RsvgLength in_height;
+  gboolean has_viewbox;
+  RsvgRectangle viewbox;
+  rsvg_handle_get_intrinsic_dimensions (svg, &has_width, &in_width, &has_height, &in_height, &has_viewbox, &viewbox);
+  double input_width = has_viewbox ? viewbox.width : (has_width ? in_width.length : 800);
+  double input_height = has_viewbox ? viewbox.height : (has_height ? in_height.length : 800);
   //REprintf("Size: %fx%f\n", input_width, input_height);
 #else
   RsvgDimensionData dimensions;
