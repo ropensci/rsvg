@@ -16,7 +16,24 @@ typedef struct {
   size_t size;
 } memory;
 
-void setup_render_handle(RsvgHandle *svg, cairo_t *cr){
+#if LIBRSVG_CHECK_VERSION(2,52,0)
+static int unit_to_px(RsvgLength x){
+  double l = x.length;
+  switch(x.unit){
+  case RSVG_UNIT_PX:
+  case RSVG_UNIT_PT:
+    return l;
+  case RSVG_UNIT_IN:
+    return 300*l;
+  case RSVG_UNIT_CM:
+    return 100*l;
+  default:
+    return 800;
+  }
+}
+#endif
+
+static void setup_render_handle(RsvgHandle *svg, cairo_t *cr){
 #if LIBRSVG_CHECK_VERSION(2,52,0)
   GError *err = NULL;
   RsvgRectangle viewport = {0.0};
@@ -128,8 +145,8 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   gboolean has_viewbox;
   RsvgRectangle viewbox;
   rsvg_handle_get_intrinsic_dimensions (svg, &has_width, &in_width, &has_height, &in_height, &has_viewbox, &viewbox);
-  double input_width = has_viewbox ? viewbox.width : (has_width ? in_width.length : 800);
-  double input_height = has_viewbox ? viewbox.height : (has_height ? in_height.length : 800);
+  double input_width = has_viewbox ? viewbox.width : (has_width ? unit_to_px(in_width) : 800);
+  double input_height = has_viewbox ? viewbox.height : (has_height ? unit_to_px(in_height) : 800);
   //REprintf("Size: %fx%f\n", input_width, input_height);
 #else
   RsvgDimensionData dimensions;

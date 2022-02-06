@@ -1,5 +1,6 @@
-2.1.2.9000
+2.2.0
   - Add `rsvg_eps()` which converts to Encapsulated PostScript (EPS) format (@salim-b)
+  - Fix some deprecation warnings
 
 2.1.2
   - Windows: update to librsvg v2.48.8
