@@ -37,7 +37,7 @@
 #' webp::write_webp(bitmap, "bitmap.webp", quality = 100)
 #'
 #' # cleanup
-#' unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.webp"))
+#' unlink(c("out.*", "bitmap.webp"))
 rsvg <- function(svg, width = NULL, height = NULL, css = NULL) {
   out <- rsvg_raw(svg, width = width, height = height, css = css)
   out <- structure(as.numeric(out)/255, dim = dim(out))

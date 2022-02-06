@@ -70,5 +70,5 @@ magick::image_read(bitmap)
 webp::write_webp(bitmap, "bitmap.webp", quality = 100)
 
 # cleanup
-unlink(c("out.pdf", "out.png", "out.svg", "out.ps", "bitmap.webp"))
+unlink(c("out.*", "bitmap.webp"))
 }
