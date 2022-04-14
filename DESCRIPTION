@@ -12,8 +12,8 @@ Description: Renders vector-based svg images into high-quality custom-size
     e.g. png, jpeg or webp format. In addition, the package can convert
     images directly to various formats such as pdf or postscript.
 License: MIT + file LICENSE
-URL: https://github.com/jeroen/rsvg
-BugReports: https://github.com/jeroen/rsvg/issues
+URL: https://docs.ropensci.org/rsvg, https://github.com/ropensci/rsvg
+BugReports: https://github.com/jeroen/ropensci/issues
 Suggests:
     ggplot2,
     knitr,
