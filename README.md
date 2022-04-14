@@ -2,8 +2,12 @@
 
 > Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
-[![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
+<!-- badges: start -->
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+![runiverse-name](https://ropensci.r-universe.dev/badges/:name)
+![runiverse-package](https://ropensci.r-universe.dev/badges/rsvg)
+![cran-badge](http://www.r-pkg.org/badges/version/rsvg)
+<!-- badges: end -->
 
 Renders vector-based 'svg' images into high-quality custom-size bitmap
 arrays using 'librsvg'. The resulting bitmap can be written to e.g. 'png', 'jpeg'
@@ -12,9 +16,8 @@ formats such as pdf or postscript.
 
 ## Documentation
 
-About the R package:
-
- - Blog post: [The 'rsvg' Package: High Quality Image Rendering in R](https://www.opencpu.org/posts/svg-release/)
+About the R package: https://docs.ropensci.org/rsvg
+Upstream librsvg: https://gitlab.gnome.org/GNOME/librsvg
 
 ## Hello World
 
