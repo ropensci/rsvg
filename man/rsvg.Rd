@@ -3,6 +3,7 @@
 \name{rsvg}
 \alias{rsvg}
 \alias{rsvg_raw}
+\alias{rsvg_nativeraster}
 \alias{rsvg_webp}
 \alias{rsvg_png}
 \alias{rsvg_pdf}
@@ -14,6 +15,8 @@
 rsvg(svg, width = NULL, height = NULL, css = NULL)
 
 rsvg_raw(svg, width = NULL, height = NULL, css = NULL)
+
+rsvg_nativeraster(svg, width = NULL, height = NULL, css = NULL)
 
 rsvg_webp(svg, file = NULL, width = NULL, height = NULL, css = NULL)
 
@@ -64,6 +67,10 @@ rsvg_eps(tmp, "out.eps")
 # render into raw bitmap array
 bitmap <- rsvg(tmp, height = 1440)
 dim(bitmap) # h*w*c
+
+# render to native raster object
+nr <- rsvg_nativeraster(tmp)
+# grid::grid.raster(nr)
 
 # read in your package of choice
 magick::image_read(bitmap)
