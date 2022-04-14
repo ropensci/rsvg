@@ -16,8 +16,8 @@ formats such as pdf or postscript.
 
 ## Documentation
 
-About the R package: https://docs.ropensci.org/rsvg
-Upstream librsvg: https://gitlab.gnome.org/GNOME/librsvg
+ - The R package: https://docs.ropensci.org/rsvg
+ - Upstream librsvg: https://gitlab.gnome.org/GNOME/librsvg
 
 ## Hello World
 
