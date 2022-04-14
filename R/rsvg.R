@@ -32,6 +32,10 @@
 #' bitmap <- rsvg(tmp, height = 1440)
 #' dim(bitmap) # h*w*c
 #'
+#' # render to native raster object
+#' nr <- rsvg_nativeraster(tmp)
+#' # grid::grid.raster(nr)
+#'
 #' # read in your package of choice
 #' magick::image_read(bitmap)
 #' webp::write_webp(bitmap, "bitmap.webp", quality = 100)
@@ -55,6 +59,18 @@ rsvg_raw <- function(svg, width = NULL, height = NULL, css = NULL) {
   stopifnot(is.null(height) || is.numeric(height))
   out <- .Call(R_rsvg, svg, width, height, 0L, css)
   out[c(3,2,1,4),,, drop = FALSE]
+}
+
+#' @rdname rsvg
+#' @export
+rsvg_nativeraster <- function(svg, width = NULL, height = NULL, css = NULL) {
+  svg <- read_data(svg)
+  if(length(css)){
+    css <- read_data(css)
+  }
+  stopifnot(is.null(width) || is.numeric(width))
+  stopifnot(is.null(height) || is.numeric(height))
+  .Call(R_rsvg, svg, width, height, 6L, css)
 }
 
 #' @rdname rsvg

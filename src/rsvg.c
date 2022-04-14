@@ -2,6 +2,7 @@
 #define STRICT_R_HEADERS
 
 #include <Rinternals.h>
+#include <Rdefines.h>
 #include <R_ext/Rdynload.h>
 #include <librsvg/rsvg.h>
 #include <cairo.h>
@@ -64,6 +65,44 @@ static SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, doub
   Rf_setAttrib(image, R_DimSymbol, dim);
   memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
   UNPROTECT(1);
+  g_object_unref(svg);
+  cairo_surface_destroy(canvas);
+  cairo_destroy(cr);
+  return image;
+}
+
+static SEXP write_native_raster(RsvgHandle *svg, int width, int height, double sx, double sy){
+  cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+  cairo_t *cr = cairo_create(canvas);
+  cairo_scale(cr, sx, sy);
+  setup_render_handle(svg, cr);
+  cairo_surface_flush(canvas);
+
+  // Allocate an integer matrix of class 'nativeRaster'
+  SEXP image = PROTECT(Rf_allocVector(INTSXP, width*height));
+  SEXP dim = PROTECT(Rf_allocVector(INTSXP, 2));
+  INTEGER(dim)[0] = height;
+  INTEGER(dim)[1] = width;
+  Rf_setAttrib(image, R_DimSymbol, dim);
+  SET_CLASS(image, Rf_mkString("nativeRaster"));
+
+  // Get a pointer to the raw bytes from cairo in CAIRO_FORMAT_ARGB32
+  unsigned char *bp  = cairo_image_surface_get_data(canvas);
+  int *nrp = INTEGER(image);
+
+  // Note: this is not properly handling stride and is just assuming
+  // that the width of the canvas is width*channels
+  // Twiddle the colour channels from RGBA to ARGB
+  for (int i=0; i < height * width; i++) {
+    nrp[i] =
+      (bp[(i << 2) + 0]) << 16 |   // RGBA -> ARGB
+      (bp[(i << 2) + 1]) <<  8 |   //
+      (bp[(i << 2) + 2]) <<  0 |   //
+      (bp[(i << 2) + 3]) << 24 ;   //
+  }
+
+  // Free and return
+  UNPROTECT(2);
   g_object_unref(svg);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
@@ -192,6 +231,8 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
     return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream, FALSE);
   case 5:
     return write_stream(svg, width, height, sx, sy, cairo_ps_surface_create_for_stream, TRUE);
+  case 6:
+    return write_native_raster(svg, width, height, sx, sy);
   }
   return R_NilValue;
 }
