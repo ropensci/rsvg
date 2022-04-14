@@ -1,15 +1,14 @@
-# rsvg
+# rsvg <img src="man/figures/logo.svg" align="right" alt="logo" width="120" height = "139" style = "border: none; float: right;">
 
-##### *Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays*
+> Render SVG Images into PDF, PNG, PostScript, or Bitmap Arrays
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/rsvg)](http://cran.r-project.org/package=rsvg)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/rsvg)](http://cran.r-project.org/package=rsvg)
-[![Github Stars](https://img.shields.io/github/stars/jeroen/rsvg.svg?style=social&label=Github)](https://github.com/jeroen/rsvg)
 
-> Renders vector-based 'svg' images into high-quality custom-size bitmap
-  arrays using 'librsvg'. The resulting bitmap can be written to e.g. 'png', 'jpeg'
-  or 'webp' format. In addition, the package can convert images directly to various
-  formats such as pdf or postscript.
+Renders vector-based 'svg' images into high-quality custom-size bitmap
+arrays using 'librsvg'. The resulting bitmap can be written to e.g. 'png', 'jpeg'
+or 'webp' format. In addition, the package can convert images directly to various
+formats such as pdf or postscript.
 
 ## Documentation
 
