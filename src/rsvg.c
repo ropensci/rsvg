@@ -59,16 +59,16 @@ static SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, doub
   int size = stride * height;
   cairo_surface_flush(canvas);
   SEXP image = PROTECT(Rf_allocVector(RAWSXP, size));
-  SEXP dim = Rf_allocVector(INTSXP, 3);
+  SEXP dim = PROTECT(Rf_allocVector(INTSXP, 3));
   INTEGER(dim)[0] = 4;
   INTEGER(dim)[1] = width;
   INTEGER(dim)[2] = height;
   Rf_setAttrib(image, R_DimSymbol, dim);
   memcpy(RAW(image), cairo_image_surface_get_data(canvas), size);
-  UNPROTECT(1);
   g_object_unref(svg);
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
+  UNPROTECT(2);
   return image;
 }
 
@@ -135,9 +135,10 @@ static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double 
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
   g_object_unref(svg);
-  SEXP res = Rf_allocVector(RAWSXP, mem.size);
+  SEXP res = PROTECT(Rf_allocVector(RAWSXP, mem.size));
   memcpy(RAW(res), mem.buf, mem.size);
   free(mem.buf);
+  UNPROTECT(1);
   return res;
 }
 
@@ -154,9 +155,10 @@ static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, doub
   cairo_surface_destroy(canvas);
   cairo_destroy(cr);
   g_object_unref(svg);
-  SEXP res = Rf_allocVector(RAWSXP, buf.size);
+  SEXP res = PROTECT(Rf_allocVector(RAWSXP, buf.size));
   memcpy(RAW(res), buf.buf, buf.size);
   free(buf.buf);
+  UNPROTECT(1);
   return res;
 }
 
