@@ -38,8 +38,9 @@ static void setup_render_handle(RsvgHandle *svg, cairo_t *cr){
 #if LIBRSVG_CHECK_VERSION(2,52,0)
   GError *err = NULL;
   RsvgRectangle viewport = {0.0};
-  //viewport.width = width;
-  //viewport.height = height;
+  cairo_surface_t *surface = cairo_get_target(cr);
+  viewport.width = cairo_image_surface_get_width(surface);
+  viewport.height = cairo_image_surface_get_height(surface);
   rsvg_handle_render_document(svg, cr, &viewport, &err);
   if(err != NULL)
     Rf_error("Failure in rsvg_handle_render_document: %s", err->message);
