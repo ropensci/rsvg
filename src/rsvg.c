@@ -90,17 +90,16 @@ static SEXP write_native_raster(RsvgHandle *svg, int width, int height, double s
 
   // Get a pointer to the raw bytes from cairo in CAIRO_FORMAT_ARGB32
   unsigned char *bp  = cairo_image_surface_get_data(canvas);
-  uint32_t *nrp = (uint32_t*) INTEGER(image);
+  unsigned char *nrp = (unsigned char *)INTEGER(image);
 
   // Note: this is not properly handling stride and is just assuming
   // that the width of the canvas is width*channels
-  // Twiddle the colour channels from RGBA to ARGB
-  for (int i=0; i < height * width; i++) {
-    nrp[i] =
-      (bp[(i << 2) + 0]) << 16 |   // RGBA -> ARGB
-      (bp[(i << 2) + 1]) <<  8 |   //
-      (bp[(i << 2) + 2]) <<  0 |   //
-      (bp[(i << 2) + 3]) << 24 ;   //
+  // Twiddle the colour channels
+  for (int i=0; i < height * width * 4; i+=4) {
+    nrp[i + 2] = bp[i + 0];
+    nrp[i + 1] = bp[i + 1];
+    nrp[i + 0] = bp[i + 2];
+    nrp[i + 3] = bp[i + 3];
   }
 
   // Free and return
