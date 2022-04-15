@@ -11,6 +11,7 @@
 #include <cairo-ps.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 typedef struct {
   unsigned char *buf;
@@ -89,7 +90,7 @@ static SEXP write_native_raster(RsvgHandle *svg, int width, int height, double s
 
   // Get a pointer to the raw bytes from cairo in CAIRO_FORMAT_ARGB32
   unsigned char *bp  = cairo_image_surface_get_data(canvas);
-  int *nrp = INTEGER(image);
+  uint32_t *nrp = (uint32_t*) INTEGER(image);
 
   // Note: this is not properly handling stride and is just assuming
   // that the width of the canvas is width*channels
