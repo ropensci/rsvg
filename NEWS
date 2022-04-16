@@ -1,3 +1,7 @@
+2.3.1
+  - Fix UBSAN error in rsvg_nativeraster
+  - Set viewport sizing for document rendering #32
+
 2.3.0
   - Add function `rsvg_nativeraster()` tnx mikefc
 
