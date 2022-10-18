@@ -238,7 +238,7 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   return R_NilValue;
 }
 
-SEXP R_librsvg_version(){
+SEXP R_librsvg_version(void){
   return Rf_mkString(LIBRSVG_VERSION);
 }
 
