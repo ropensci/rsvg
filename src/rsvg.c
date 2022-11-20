@@ -219,6 +219,11 @@ SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
     sx = sy = height / input_height;
     width = round(input_width * sx);
   }
+#if LIBRSVG_CHECK_VERSION(2,52,0)
+  /* New API seems to autoscale now */
+  sx = 1;
+  sy = 1;
+#endif
   switch(Rf_asInteger(format)){
   case 0:
     return write_bitmap(svg, width, height, sx, sy);
