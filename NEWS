@@ -1,3 +1,6 @@
+2.4.0
+  - Fix scaling bug for librsvg 2.52+
+
 2.3.2
   - Fix strict-prototypes warnings
 
