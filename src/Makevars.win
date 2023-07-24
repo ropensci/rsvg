@@ -1,5 +1,6 @@
-VERSION = 2.48.8
+VERSION = 2.50.5-2
 RWINLIB = ../windows/rsvg-$(VERSION)
+LIBBUILD = ${subst gcc ,-,${R_COMPILED_BY}}${R_ARCH}
 
 all: clean winlibs
 
@@ -12,17 +13,16 @@ clean:
 PKG_CPPFLAGS = \
 	-I$(RWINLIB)/include/librsvg-2.0 \
 	-I$(RWINLIB)/include/glib-2.0 \
-	-I$(RWINLIB)/lib${R_ARCH}/glib-2.0/include \
+	-I$(RWINLIB)/lib-8.3.0${R_ARCH}/glib-2.0/include \
 	-I$(RWINLIB)/include/gdk-pixbuf-2.0 \
 	-I$(RWINLIB)/include/cairo
 
-LIBBUILD = ${subst gcc ,-,${R_COMPILED_BY}}${R_ARCH}
 PKG_LIBS = \
 	-L$(RWINLIB)/lib${LIBBUILD} \
-	-L$(RWINLIB)/lib${R_ARCH}${CRT} \
+	-L$(RWINLIB)/lib${R_ARCH} \
 	-lrsvg-2 -lxml2 \
 	-lpangocairo-1.0 -lpango-1.0 -lpangowin32-1.0 \
 	-lcairo -lfreetype -lpixman-1 -lgdk_pixbuf-2.0 \
 	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
-	-lffi -lpcre -lpng16 -lintl -lz -liconv -lfribidi \
-	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv
+	-lffi -lpcre -lpng16 -ljpeg -ltiff -lintl -lz -liconv -lfribidi \
+	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv -lbcrypt -lntdll
