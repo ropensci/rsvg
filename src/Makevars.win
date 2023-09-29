@@ -15,7 +15,8 @@ PKG_CPPFLAGS = \
 	-I$(RWINLIB)/${OLDLIBDIR}/glib-2.0/include \
 	-I$(RWINLIB)/lib/glib-2.0/include \
 	-I$(RWINLIB)/include/gdk-pixbuf-2.0 \
-	-I$(RWINLIB)/include/cairo
+	-I$(RWINLIB)/include/cairo \
+	-DCAIRO_WIN32_STATIC_BUILD
 
 ifeq ($(R_COMPILED_BY),gcc 8.3.0)
 PCRE=-lpcre
