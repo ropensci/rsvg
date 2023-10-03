@@ -1,5 +1,6 @@
 2.5.1
   - MacOS: update to librsvg 2.56.3 (should fix a crash in #41)
+  - Windows: update to librsvg 2.57.0
 
 2.5.0
   - Windows: update to librsvg 2.50.5 and fix rendering of embedded
