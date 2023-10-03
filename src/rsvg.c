@@ -162,6 +162,9 @@ static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, doub
 
 SEXP R_rsvg(SEXP data, SEXP rwidth, SEXP rheight, SEXP format, SEXP css){
   GError *err = NULL;
+  //GInputStream *input = g_memory_input_stream_new_from_data(RAW(data), LENGTH(data), NULL);
+  //RsvgHandle *svg = rsvg_handle_new_from_stream_sync(input, NULL, RSVG_HANDLE_FLAG_KEEP_IMAGE_DATA, NULL, NULL);
+  //g_input_stream_close(input, NULL, NULL);
   RsvgHandle *svg = rsvg_handle_new_from_data (RAW(data), LENGTH(data), &err);
   if(err != NULL)
     Rf_error("Failed to parse svg: %s", err->message);
