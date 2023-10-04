@@ -35,13 +35,12 @@ static int unit_to_px(RsvgLength x){
 }
 #endif
 
-static void setup_render_handle(RsvgHandle *svg, cairo_t *cr){
+static void setup_render_handle(RsvgHandle *svg, cairo_t *cr, int width, int height){
 #if LIBRSVG_CHECK_VERSION(2,52,0)
   GError *err = NULL;
   RsvgRectangle viewport = {0.0};
-  cairo_surface_t *surface = cairo_get_target(cr);
-  viewport.width = cairo_image_surface_get_width(surface);
-  viewport.height = cairo_image_surface_get_height(surface);
+  viewport.width = width;
+  viewport.height = height;
   rsvg_handle_render_document(svg, cr, &viewport, &err);
   if(err != NULL)
     Rf_error("Failure in rsvg_handle_render_document: %s", err->message);
@@ -55,7 +54,7 @@ static SEXP write_bitmap(RsvgHandle *svg, int width, int height, double sx, doub
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  setup_render_handle(svg, cr);
+  setup_render_handle(svg, cr, width, height);
   int stride = cairo_image_surface_get_stride(canvas); //should be equal to width * channels
   int size = stride * height;
   cairo_surface_flush(canvas);
@@ -77,7 +76,7 @@ static SEXP write_native_raster(RsvgHandle *svg, int width, int height, double s
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  setup_render_handle(svg, cr);
+  setup_render_handle(svg, cr, width, height);
   cairo_surface_flush(canvas);
 
   // Allocate an integer matrix of class 'nativeRaster'
@@ -128,7 +127,7 @@ static SEXP write_png(RsvgHandle *svg, int width, int height, double sx, double 
   cairo_surface_t *canvas = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  setup_render_handle(svg, cr);
+  setup_render_handle(svg, cr, width, height);
   memory mem = {NULL, 0};
   cairo_surface_write_to_png_stream(canvas, write_func, &mem);
   cairo_surface_flush(canvas);
@@ -148,7 +147,7 @@ static SEXP write_stream(RsvgHandle *svg, int width, int height, double sx, doub
     cairo_ps_surface_set_eps(canvas, TRUE);
   cairo_t *cr = cairo_create(canvas);
   cairo_scale(cr, sx, sy);
-  setup_render_handle(svg, cr);
+  setup_render_handle(svg, cr, width, height);
   cairo_surface_show_page(canvas);
   cairo_surface_flush(canvas);
   cairo_surface_destroy(canvas);
