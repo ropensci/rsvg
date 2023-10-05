@@ -26,9 +26,11 @@ test_that("rendering to size works", {
   rsvg_png(normalized, tmp2)
   png::writePNG(rsvg::rsvg_nativeraster(orig), tmp3)
   expect_equal(image_dim(tmp1), '512x512')
-  expect_equal(image_dim(tmp2), '512x512')
+  if(rsvg::librsvg_version() >= "2.52"){
+    expect_equal(image_dim(tmp2), '512x512')
+    expect_gt(image_similarity(tmp1, tmp2), 0.99)
+  }
   expect_equal(image_dim(tmp3), '512x512')
-  expect_gt(image_similarity(tmp1, tmp2), 0.99)
   expect_gt(image_similarity(tmp1, tmp3), 0.99)
 
   # Scale by width
