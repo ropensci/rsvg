@@ -22,7 +22,8 @@ Suggests:
     spelling,
     svglite,
     testthat (>= 3.0.0),
-    webp
+    webp,
+    png
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
