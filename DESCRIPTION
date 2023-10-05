@@ -21,6 +21,7 @@ Suggests:
     rmarkdown,
     spelling,
     svglite,
+    testthat (>= 3.0.0),
     webp
 VignetteBuilder: 
     knitr
@@ -28,3 +29,4 @@ Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.1.2
 SystemRequirements: librsvg2
+Config/testthat/edition: 3
