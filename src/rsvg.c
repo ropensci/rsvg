@@ -1,6 +1,3 @@
-#define R_NO_REMAP
-#define STRICT_R_HEADERS
-
 #include <Rinternals.h>
 #include <Rdefines.h>
 #include <R_ext/Rdynload.h>
