@@ -1,13 +1,5 @@
-RWINLIB = ../windows/librsvg
+RWINLIB = ../.deps/librsvg
 OLDLIBDIR = lib${subst gcc,,${COMPILED_BY}}${R_ARCH}
-
-all: clean winlibs
-
-winlibs: clean
-	"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
-
-clean:
-	rm -f $(SHLIB) $(OBJECTS)
 
 PKG_CPPFLAGS = \
 	-I$(RWINLIB)/include/librsvg-2.0 \
@@ -37,5 +29,13 @@ PKG_LIBS = \
 	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv\
 	-lrpcrt4 -lbcrypt -lshlwapi -luuid $(NTDLL) \
 
-#-ld2d1 -ldxguid
+all: $(SHLIB) cleanup
 
+# Needed for parallel make
+$(OBJECTS): | $(RWINLIB)
+
+$(RWINLIB):
+	@"${R_HOME}/bin${R_ARCH_BIN}/Rscript.exe" "../tools/winlibs.R"
+
+cleanup: $(SHLIB)
+	@rm -Rf $(RWINLIB)

@@ -1,2 +1,7 @@
 PKG_CPPFLAGS=@cflags@ -DSTRICT_R_HEADERS -DR_NO_REMAP
 PKG_LIBS=@libs@
+
+all: $(SHLIB) cleanup
+
+cleanup: $(SHLIB)
+	@rm -Rf ../.deps

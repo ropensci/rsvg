@@ -1,7 +1,5 @@
-
-
-if(!file.exists("../windows/librsvg/include/librsvg-2.0/librsvg/rsvg.h")){
-  unlink("../windows", recursive = TRUE)
+if(!file.exists('rsvg.o') && !file.exists("../.deps/librsvg/include/librsvg-2.0/librsvg/rsvg.h")){
+  unlink("../.deps", recursive = TRUE)
   url <- if(grepl("aarch", R.version$platform)){
     "https://github.com/r-windows/bundles/releases/download/librsvg-2.57.0/librsvg-2.57.0-clang-aarch64.tar.xz"
   } else if(grepl("clang", Sys.getenv('R_COMPILED_BY'))){
@@ -12,9 +10,10 @@ if(!file.exists("../windows/librsvg/include/librsvg-2.0/librsvg/rsvg.h")){
     "https://github.com/rwinlib/rsvg/archive/v2.50.5.tar.gz"
   }
   download.file(url, basename(url), quiet = TRUE)
-  dir.create("../windows", showWarnings = FALSE)
-  untar(basename(url), exdir = "../windows", tar = 'internal')
+  dir.create("../.deps", showWarnings = FALSE)
+  untar(basename(url), exdir = "../.deps", tar = 'internal')
   unlink(basename(url))
-  setwd("../windows")
+  setwd("../.deps")
   file.rename(list.files(), 'librsvg')
+  invisible()
 }
