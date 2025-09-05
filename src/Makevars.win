@@ -13,10 +13,9 @@ PKG_CPPFLAGS = \
 	-DSTRICT_R_HEADERS -DR_NO_REMAP
 
 ifeq ($(R_COMPILED_BY),gcc 8.3.0)
-PCRE=-lpcre
+MORELIBS=-lpcre
 else
-PCRE=-lpcre2-8
-NTDLL=-lntdll -lbrotlidec -lbrotlicommon
+MORELIBS=-lpcre2-8 -lbrotlidec -lbrotlicommon -lntdll
 endif
 
 PKG_LIBS = \
@@ -25,10 +24,10 @@ PKG_LIBS = \
 	-lrsvg-2 -lxml2 \
 	-lpangocairo-1.0 -lpango-1.0 -lpangowin32-1.0 -lharfbuzz -ldwrite \
 	-lcairo -lfreetype -lbz2 -lpixman-1 -lgdk_pixbuf-2.0 \
-	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 ${PCRE} \
+	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 \
 	-lffi -lpng16 -ljpeg -ltiff -lintl -lz -liconv -lfribidi \
 	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv\
-	-lrpcrt4 -lbcrypt -lshlwapi -luuid -lssp -lmsimg32 $(NTDLL) \
+	-lrpcrt4 -lbcrypt -lshlwapi -luuid -lssp -lmsimg32 $(MORELIBS) \
 
 all: $(SHLIB) cleanup
 
