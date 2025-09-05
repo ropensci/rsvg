@@ -16,7 +16,7 @@ ifeq ($(R_COMPILED_BY),gcc 8.3.0)
 PCRE=-lpcre
 else
 PCRE=-lpcre2-8
-NTDLL=-lntdll
+NTDLL=-lntdll -lbrotlidec -lbrotlicommon
 endif
 
 PKG_LIBS = \
@@ -28,7 +28,7 @@ PKG_LIBS = \
 	-lcairo-gobject -lgio-2.0 -lgobject-2.0 -lgmodule-2.0 -lglib-2.0 ${PCRE} \
 	-lffi -lpng16 -ljpeg -ltiff -lintl -lz -liconv -lfribidi \
 	-lusp10 -liphlpapi -lgdiplus -lgdi32 -lole32 -ldnsapi -lws2_32 -luserenv\
-	-lrpcrt4 -lbcrypt -lshlwapi -luuid -lssp $(NTDLL) \
+	-lrpcrt4 -lbcrypt -lshlwapi -luuid -lssp -lmsimg32 $(NTDLL) \
 
 all: $(SHLIB) cleanup
 
