@@ -1,5 +1,5 @@
 2.7.0
-  - MacOS / Windows: update to librsvg 2.61.0 stack
+  - MacOS / Windows: update to librsvg 2.61.0 / cairo 1.18.4 / pango 1.57.0.
 
 2.6.1
   - Remove some test verbosity per CRAN request
