@@ -1,5 +1,5 @@
 2.7.0
-  - Windows: update to librsvg 2.61.0 stack
+  - MacOS / Windows: update to librsvg 2.61.0 stack
 
 2.6.1
   - Remove some test verbosity per CRAN request
