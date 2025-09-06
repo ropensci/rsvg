@@ -29,5 +29,5 @@ VignetteBuilder:
 Encoding: UTF-8
 Language: en-US
 RoxygenNote: 7.1.2
-SystemRequirements: librsvg2
+SystemRequirements: librsvg2 (at least version 2.52)
 Config/testthat/edition: 3
