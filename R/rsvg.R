@@ -1,9 +1,18 @@
-#' Render SVG into Bitmap
+#' Render SVG Images
 #'
-#' Render svg image into a high quality bitmap. When both \code{width} and \code{height}
-#' are \code{NULL}, the output resolution matches that of the input. When either \code{width}
-#' or \code{height} is specified, the image is scaled proportionally. When both \code{width}
-#' and \code{height} are specified, the image is stretched into the requested size.
+#' Render an SVG image as a bitmap or as encoded graphics such as PNG, PDF,
+#' or SVG.
+#' When both \code{width} and \code{height} are \code{NULL}, the output resolution
+#' matches that of the input. When either is specified, the image is scaled
+#' proportionally. When both are specified, the image is stretched to the
+#' requested size.
+#'
+#' @details
+#' \code{rsvg_svg()} redraws the image through Cairo and returns or writes a
+#' new SVG. It typically renders text as glyph outlines. Effects such as
+#' blur can produce embedded raster images. The conversion removes the
+#' original text content used for editing and search. The renderer can
+#' also rewrite shapes and styles and omit source metadata and element IDs.
 #'
 #' @export
 #' @useDynLib rsvg R_rsvg
